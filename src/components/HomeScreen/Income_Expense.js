@@ -17,16 +17,16 @@ export default function Income_Expense() {
 const Card = (props) => {
   const theme=useSelector((state)=> state.theme.theme)
   return (
-    <View className="w-[45%] py-3 rounded-xl border-[1px] border-gray-100">
-      <Text className="text-center">{props.expense===true?"Expenses":"Income"}</Text>
+    <View style={{borderColor:theme==="light"?"rgba(0,0,0,0.05)":"rgba(255,255,255,0.05)"}} className="w-[45%] py-3 rounded-xl border-[1px]">
+      <Text style={{color:theme==="light"?colors.light.text:colors.dark.text}} className="text-center">{props.expense===true?"Expenses":"Income"}</Text>
       <View className="flex flex-row justify-center my-2 mb-3">
         <View style={{borderColor:props.expense===true?'#d32f2f':'#2e7d32'}} className="border-[2px] rounded-md h-fit px-1 flex justify-center items-center">
           <Icon name={props.expense===true?"trending-down":"trending-up"} size={16} color={props.expense===true?'#d32f2f':'#2e7d32'} />
         </View>
-        <Text className="text-[20px] font-bold">  ₹ {props.value}</Text>
+        <Text style={{color:theme==="light"?colors.light.text:colors.dark.text}} className="text-[20px] font-bold">  ₹ {props.value}</Text>
       </View>
-        <TouchableOpacity style={{backgroundColor:colors.light.primary}} className="w-4/5 mx-auto py-2 rounded-lg">
-          <Text className="text-center font-bold">{props.expense===true?"ADD EXPENSE":"ADD INCOME"}</Text>
+        <TouchableOpacity style={{backgroundColor:theme==="light"?colors.light.primary:colors.dark.primary}} className="w-4/5 mx-auto py-2 rounded-lg">
+          <Text className="text-center font-bold text-white">{props.expense===true?"ADD EXPENSE":"ADD INCOME"}</Text>
         </TouchableOpacity>
     </View>
   );
