@@ -1,5 +1,6 @@
 import {View, Text, Image, Switch} from 'react-native';
 import {useState} from 'react';
+import MyText from '../../MyText';
 import avatar_image from './../../../assets/avatar.png';
 import {useSelector} from 'react-redux';
 import {useDispatch} from 'react-redux';
@@ -29,19 +30,13 @@ export default function Header() {
           source={avatar_image}
         />
         <View className="ml-2">
-          <Text
-            style={{
-              color: theme === 'light' ? colors.light.text : colors.dark.text,
-            }}
-            className="text-black">
-            Hello,
-          </Text>
+          <MyText>Hello,</MyText>
           <Text
             style={{
               color:
                 theme === 'light' ? colors.light.primary : colors.dark.primary,
             }}
-            className="text-2xl font-bold text-black dark:bg-red-500">
+            className="text-2xl font-bold">
             Aiden Pierce
           </Text>
         </View>

@@ -1,10 +1,12 @@
 const lprimary = '#AC88EF';
 const lsecondary = '#736DF6';
-const ltext = '#000';
+const ltext = '#7D7C7C';
+const lshadow = '#7D7C7C';
 const lbackground = '#FFFFFF';
 const dprimary = '#CD4FF7';
 const dsecondary = '#6953F7';
 const dtext = '#fff';
+const dshadow = '#000';
 const dbackground = '#302D43';
 
 const colors = {
@@ -12,12 +14,14 @@ const colors = {
     primary: lprimary,
     secondary: lsecondary,
     text: ltext,
+    shadow: lshadow,
     background: lbackground,
   },
   dark: {
     primary: dprimary,
     secondary: dsecondary,
     text: dtext,
+    shadow: dshadow,
     background: dbackground,
   },
 };
