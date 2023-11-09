@@ -1,4 +1,4 @@
-import {ScrollView} from 'react-native';
+import {View, ScrollView, Image} from 'react-native';
 import Header from '../components/HomeScreen/Header';
 import ExpenseCard from '../components/HomeScreen/ExpenseCard';
 import Income_Expense from '../components/HomeScreen/Income_Expense';
@@ -15,6 +15,7 @@ export default function HomeScreen() {
       <ExpenseCard />
       <Income_Expense />
       <RecentTransactions />
+      <View className="h-20"></View>
     </ScrollView>
   );
 }

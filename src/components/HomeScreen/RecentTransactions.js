@@ -17,6 +17,8 @@ export default function RecentTransactions() {
         <View>
             <RTCard expense={false} title="Recieved from Ujjwal Sharma" category="Pending" time="11/9/23 12:21 PM" value={2500} />
             <RTCard expense={true} title="Paid to Swapnil" category="Pending" time="11/9/23 12:21 PM" value={1000} />
+            <RTCard expense={false} title="Recieved from Ujjwal Sharma" category="Pending" time="11/9/23 12:21 PM" value={2500} />
+            <RTCard expense={true} title="Paid to Swapnil" category="Pending" time="11/9/23 12:21 PM" value={1000} />
         </View>
     </View>
   )

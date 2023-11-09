@@ -1,4 +1,5 @@
-const lprimary = '#AC88EF';
+// const lprimary = '#AC88EF';
+const lprimary = '#5856D6';
 const lsecondary = '#736DF6';
 const ltext = '#7D7C7C';
 const lshadow = '#7D7C7C';
