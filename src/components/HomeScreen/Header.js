@@ -1,7 +1,7 @@
 import {View, Text, Image, Switch} from 'react-native';
 import {useState} from 'react';
 import MyText from '../../MyText';
-import avatar_image from './../../../assets/avatar.png';
+import avatar_image from './../../../assets/avatar.jpg';
 import {useSelector} from 'react-redux';
 import {useDispatch} from 'react-redux';
 import {switchToDark, switchToLight} from '../../store/themeSlice';
@@ -37,7 +37,7 @@ export default function Header() {
                 theme === 'light' ? colors.light.primary : colors.dark.primary,
             }}
             className="text-2xl font-bold">
-            Aiden Pierce
+            Aiden Pearce
           </Text>
         </View>
       </View>

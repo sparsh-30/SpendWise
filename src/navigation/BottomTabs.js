@@ -25,7 +25,7 @@ export default function BottomTabs() {
           tabBarStyle: {
             display: 'flex',
             position: 'absolute',
-            bottom: 5,
+            bottom: 10,
             left: 20,
             right: 20,
             elevation: 5,

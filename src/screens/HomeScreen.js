@@ -1,4 +1,4 @@
-import {View, ScrollView, Image} from 'react-native';
+import {View, ScrollView, StatusBar} from 'react-native';
 import Header from '../components/HomeScreen/Header';
 import ExpenseCard from '../components/HomeScreen/ExpenseCard';
 import Income_Expense from '../components/HomeScreen/Income_Expense';

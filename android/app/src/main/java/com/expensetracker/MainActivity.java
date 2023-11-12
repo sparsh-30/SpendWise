@@ -1,5 +1,12 @@
 package com.expensetracker;
 
+import android.os.Bundle;
+import android.view.View;
+import android.view.WindowManager;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
+
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
@@ -15,6 +22,33 @@ public class MainActivity extends ReactActivity {
   protected String getMainComponentName() {
     return "ExpenseTracker";
   }
+
+  @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        WindowInsetsControllerCompat windowInsetsController =
+                WindowCompat.getInsetsController(getWindow(), getWindow().getDecorView());
+
+        // Hide both the status bar and the navigation bar permanently.
+        windowInsetsController.hide(WindowInsetsCompat.Type.navigationBars());
+
+        // If you want to enable immersive mode with a swipe gesture to reveal bars:
+        windowInsetsController.setSystemBarsBehavior(
+                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+        );
+    }
+
+  /*@Override
+  protected void onCreate(Bundle savedInstanceState){
+    super.onCreate(savedInstanceState);
+    View decorView = getWindow().getDecorView();
+    int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+    decorView.setSystemUiVisibility(uiOptions);
+
+    getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+  }*/
 
   /**
    * Returns the instance of the {@link ReactActivityDelegate}. Here we use a util class {@link
