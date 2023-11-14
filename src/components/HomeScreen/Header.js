@@ -24,7 +24,7 @@ export default function Header() {
 
   return (
     <View className="flex flex-row justify-between">
-      <View className="py-5 px-2 flex flex-row items-center">
+      <View className="pb-5 pt-3 px-2 flex flex-row items-center">
         <Image
           className="w-[70px] h-[70px] rounded-full"
           source={avatar_image}

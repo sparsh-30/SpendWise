@@ -1,10 +1,16 @@
-import { ScrollView } from 'react-native'
-import Header from '../components/TransactionsScreen/Header'
+import {View} from 'react-native';
+import colors from '../colors';
+import {useSelector} from 'react-redux';
+import Header from '../components/TransactionsScreen/Header';
+import Dropdowns from '../components/TransactionsScreen/Dropdowns';
 
 export default function TransactionsScreen() {
+  const theme = useSelector(state => state.theme.theme);
   return (
-    <ScrollView className="flex-1">
+    <View
+      style={{backgroundColor: theme === 'light' ? colors.light.background : colors.dark.background}} className="bg-white dark:bg-[#302D43] flex flex-1">
       <Header />
-    </ScrollView>
-  )
+      <Dropdowns />
+    </View>
+  );
 }

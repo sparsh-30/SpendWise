@@ -1,8 +1,9 @@
-import {View, Text, TouchableNativeFeedback, Image} from 'react-native';
+import {View, Text, TouchableNativeFeedback} from 'react-native';
 import MyText from '../../MyText';
 import colors from '../../colors';
 import {useSelector} from 'react-redux';
-import getLinkFromCategoryName from '../../categoryLinks';
+import Icon from 'react-native-vector-icons/Entypo'
+import Transaction from './../Transaction'
 
 export default function RecentTransactions() {
   const theme = useSelector(state => state.theme.theme);
@@ -10,7 +11,7 @@ export default function RecentTransactions() {
     <View className="w-11/12 mx-auto">
       <View className="flex flex-row justify-between mb-2">
         <MyText>Recent Transactions</MyText>
-        <TouchableNativeFeedback>
+        {/* <TouchableNativeFeedback>
           <Text
             style={{
               color:
@@ -19,132 +20,163 @@ export default function RecentTransactions() {
             }}>
             See All
           </Text>
-        </TouchableNativeFeedback>
+        </TouchableNativeFeedback> */}
       </View>
       <View>
-        <RTCard
+        {/* <Transaction
           expense={false}
           title="Recieved from Ujjwal"
-          category="education"
+          category="Dividend"
+          time="11/9/23 12:21 PM"
+          value={2500}
+        /> */}
+        <Transaction
+          expense={false}
+          title="Recieved from Ujjwal"
+          category="Education"
           time="11/9/23 12:21 PM"
           value={2500}
         />
-        <RTCard
+        <Transaction
           expense={true}
           title="Recieved from Ujjwal"
-          category="entertainment"
+          category="Entertainment"
           time="11/9/23 12:21 PM"
           value={2500}
         />
-        <RTCard
+        <Transaction
           expense={false}
           title="Recieved from Ujjwal"
-          category="groceries"
+          category="Groceries"
           time="11/9/23 12:21 PM"
           value={2500}
         />
-        <RTCard
+        <Transaction
           expense={false}
           title="Recieved from Ujjwal"
-          category="healthcare"
+          category="Healthcare"
           time="11/9/23 12:21 PM"
           value={2500}
         />
-        <RTCard
+        <Transaction
           expense={false}
           title="Recieved from Ujjwal"
-          category="house_rent"
+          category="House Rent"
           time="11/9/23 12:21 PM"
           value={2500}
         />
-        <RTCard
+        <Transaction
           expense={false}
           title="Recieved from Ujjwal"
-          category="insurance"
+          category="Insurance"
           time="11/9/23 12:21 PM"
           value={2500}
         />
-        <RTCard
+        <Transaction
           expense={false}
           title="Recieved from Ujjwal"
-          category="loan"
+          category="Loan"
           time="11/9/23 12:21 PM"
           value={2500}
         />
-        <RTCard
+        <Transaction
           expense={false}
           title="Recieved from Ujjwal"
-          category="maintenance"
+          category="Maintenance"
           time="11/9/23 12:21 PM"
           value={2500}
         />
-        <RTCard
+        <Transaction
           expense={false}
           title="Recieved from Ujjwal"
-          category="others"
+          category="Others"
           time="11/9/23 12:21 PM"
           value={2500}
         />
-        <RTCard
+        <Transaction
           expense={false}
           title="Recieved from Ujjwal"
-          category="savings"
+          category="Savings"
           time="11/9/23 12:21 PM"
           value={2500}
         />
-        <RTCard
+        <Transaction
           expense={false}
           title="Recieved from Ujjwal"
-          category="transportation"
+          category="Transportation"
+          time="11/9/23 12:21 PM"
+          value={2500}
+        />
+        <Transaction
+          expense={false}
+          title="Recieved from Ujjwal"
+          category="Dividend"
+          time="11/9/23 12:21 PM"
+          value={2500}
+        />
+        <Transaction
+          expense={false}
+          title="Recieved from Ujjwal"
+          category="Interest"
+          time="11/9/23 12:21 PM"
+          value={2500}
+        />
+        <Transaction
+          expense={false}
+          title="Recieved from Ujjwal"
+          category="Investment"
+          time="11/9/23 12:21 PM"
+          value={2500}
+        />
+        <Transaction
+          expense={false}
+          title="Recieved from Ujjwal"
+          category="Lend"
+          time="11/9/23 12:21 PM"
+          value={2500}
+        />
+        <Transaction
+          expense={false}
+          title="Recieved from Ujjwal"
+          category="Pension"
+          time="11/9/23 12:21 PM"
+          value={2500}
+        />
+        <Transaction
+          expense={false}
+          title="Recieved from Ujjwal"
+          category="Profit"
+          time="11/9/23 12:21 PM"
+          value={2500}
+        />
+        <Transaction
+          expense={false}
+          title="Recieved from Ujjwal"
+          category="Real Estate"
+          time="11/9/23 12:21 PM"
+          value={2500}
+        />
+        <Transaction
+          expense={false}
+          title="Recieved from Ujjwal"
+          category="Salary"
+          time="11/9/23 12:21 PM"
+          value={2500}
+        />
+        <Transaction
+          expense={false}
+          title="Recieved from Ujjwal"
+          category="Trade"
           time="11/9/23 12:21 PM"
           value={2500}
         />
       </View>
+      <TouchableNativeFeedback>
+        <View className="w-2/5 py-2 mt-2 mb-3 rounded-md mx-auto flex flex-row justify-center items-center" style={{backgroundColor:theme==='light'?colors.light.primary:colors.dark.primary}}>
+          <Text className="text-lg font-bold text-white mr-1">View All</Text>
+          <Icon name='chevron-right' size={20} color={'#fff'} />
+        </View>
+      </TouchableNativeFeedback>
     </View>
   );
 }
-
-const RTCard = props => {
-  const theme = useSelector(state => state.theme.theme);
-  const categoryName = getLinkFromCategoryName(props.category);
-  return (
-    <TouchableNativeFeedback>
-      <View
-        className="my-2 px-3 py-3 flex flex-row items-center rounded-lg"
-        style={{
-          shadowColor:
-            theme === 'light' ? colors.light.shadow : colors.dark.shadow,
-          elevation: 5,
-          backgroundColor:
-            theme === 'light'
-              ? colors.light.background
-              : colors.dark.background,
-        }}>
-        <View className="h-10 w-10">
-          <Image className="w-full h-full" source={categoryName} />
-        </View>
-        <View className="flex flex-row flex-1 justify-between items-center pl-6">
-          <View className="w-2/3">
-            <Text
-              className="font-[900] text-[16px]"
-              style={{
-                color:
-                  theme === 'light'
-                    ? colors.light.primary
-                    : colors.dark.primary,
-              }}>
-              {props.title}
-            </Text>
-            {/* <MyText>{props.category}</MyText> */}
-            <MyText>{props.time}</MyText>
-          </View>
-          <Text
-            className="font-bold"
-            style={{color: props.expense === true ? '#d32f2f' : '#2e7d32'}}>
-            {props.expense === true ? '-' : '+'} ₹ {props.value}
-          </Text>
-        </View>
-      </View>
-    </TouchableNativeFeedback>
-  );
-};

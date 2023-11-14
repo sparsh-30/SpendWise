@@ -23,21 +23,21 @@ public class MainActivity extends ReactActivity {
     return "ExpenseTracker";
   }
 
-  @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+  // @Override
+  //   protected void onCreate(Bundle savedInstanceState) {
+  //       super.onCreate(savedInstanceState);
 
-        WindowInsetsControllerCompat windowInsetsController =
-                WindowCompat.getInsetsController(getWindow(), getWindow().getDecorView());
+  //       WindowInsetsControllerCompat windowInsetsController =
+  //               WindowCompat.getInsetsController(getWindow(), getWindow().getDecorView());
 
-        // Hide both the status bar and the navigation bar permanently.
-        windowInsetsController.hide(WindowInsetsCompat.Type.navigationBars());
+  //       // Hide both the status bar and the navigation bar permanently.
+  //       windowInsetsController.hide(WindowInsetsCompat.Type.navigationBars());
 
-        // If you want to enable immersive mode with a swipe gesture to reveal bars:
-        windowInsetsController.setSystemBarsBehavior(
-                WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-        );
-    }
+  //       // If you want to enable immersive mode with a swipe gesture to reveal bars:
+  //       windowInsetsController.setSystemBarsBehavior(
+  //               WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+  //       );
+  //   }
 
   /*@Override
   protected void onCreate(Bundle savedInstanceState){

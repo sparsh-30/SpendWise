@@ -1,6 +1,6 @@
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {View,Platform} from 'react-native';
+import {View,Platform,StatusBar} from 'react-native';
 import Home from 'react-native-vector-icons/Entypo';
 import Transactions from 'react-native-vector-icons/FontAwesome6';
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -17,8 +17,10 @@ const Tab = createBottomTabNavigator();
 
 export default function BottomTabs() {
   const theme=useSelector((state)=> state.theme.theme);
+
   return (
     <NavigationContainer>
+      <StatusBar animated={true} backgroundColor={theme==='light'?colors.light.background:colors.dark.background} barStyle={theme==='light'?'dark-content':'light-content'} />
       <Tab.Navigator
         screenOptions={() => ({
           tabBarHideOnKeyboard: true,
