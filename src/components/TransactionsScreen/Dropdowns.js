@@ -1,41 +1,39 @@
-import {View} from 'react-native';
-import {useState} from 'react';
+import {View, Image} from 'react-native';
+import {useState,useEffect} from 'react';
 import MyText from '../../MyText';
 import DropDownPicker from 'react-native-dropdown-picker';
 import Icon from 'react-native-vector-icons/AntDesign';
 import Check from 'react-native-vector-icons/Ionicons';
 import {useSelector} from 'react-redux';
 import colors from '../../colors';
+import {getIncomeCategoryArray,getExpenseCategoryArray,getAllCategoryArray} from './../../categoryLinks';
 
 export default function Dropdowns() {
-  const theme = useSelector(state => state.theme.theme);
+  const [category,setCategory]=useState("both");
 
-  const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
-  const [items, setItems] = useState([
-    {label: 'Apple', value: 'apple'},
-    {label: 'Banana', value: 'banana'},
-  ]);
+  function setSelectedCategory(selectedCategory){
+    setCategory(selectedCategory);
+  }
 
   return (
     <View className="flex flex-row px-2">
-      <View className="w-1/2 h-20">
+      <View className="w-[45%] h-20">
         <View className="w-11/12 mx-auto">
           <MyText class="text-center mb-1">Income/Expense</MyText>
-          <TransactionTypeDropdown />
+          <TransactionTypeDropdown setSelectedCategory={setSelectedCategory} />
         </View>
       </View>
-      <View className="w-1/2 h-20 mx-auto">
-        <View className="w-11/12 mx-auto">
+      <View className="w- h-20 mx-auto">
+        <View className="w-[55%] mx-auto">
           <MyText class="text-center mb-1">Select Category</MyText>
-          <CategoryDropdown />
+          <CategoryDropdown viewCategoriesFor={category} />
         </View>
       </View>
     </View>
   );
 }
 
-const TransactionTypeDropdown = () => {
+const TransactionTypeDropdown = ({setSelectedCategory}) => {
   const theme = useSelector(state => state.theme.theme);
 
   const [open, setOpen] = useState(false);
@@ -58,6 +56,7 @@ const TransactionTypeDropdown = () => {
       closeOnBackPressed={true}
       closeAfterSelecting={true}
       placeholder="Both"
+      onSelectItem={(item)=> setSelectedCategory(item.value)}
       textStyle={{
         color: 'white',
         fontSize: 16,
@@ -106,16 +105,29 @@ const TransactionTypeDropdown = () => {
   );
 };
 
-const CategoryDropdown = () => {
+const CategoryDropdown = ({viewCategoriesFor}) => {
   const theme = useSelector(state => state.theme.theme);
 
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
-  const [items, setItems] = useState([
-    {label: 'All', value: 'all'},
-    {label: 'Expense', value: 'expense'},
-    {label: 'Income', value: 'income'},
-  ]);
+
+  function getCategoriesFromTransaction(transactionType){
+    if(transactionType==='both') return getAllCategoryArray();
+    else if(transactionType==='income') return getIncomeCategoryArray();
+    else return getExpenseCategoryArray();
+  }
+
+  const getCategoryArray = getCategoriesFromTransaction(viewCategoriesFor);
+
+  const items = getCategoryArray.map(category => {
+    return {
+      label: category.categoryTitle,
+      value: category.categoryTitle,
+      icon: () => (
+        <Image source={category.categoryLink} style={{height: 20, width: 20}} />
+      ),
+    };
+  });
 
   return (
     <DropDownPicker
@@ -125,11 +137,10 @@ const CategoryDropdown = () => {
       setOpen={setOpen}
       max={1}
       setValue={setValue}
-      setItems={setItems}
       itemSeparator={true}
       closeOnBackPressed={true}
       closeAfterSelecting={true}
-      placeholder="All"
+      placeholder={viewCategoriesFor==='both'?'All':viewCategoriesFor==='income'?'Income':'Expense'}
       textStyle={{
         color: 'white',
         fontSize: 16,

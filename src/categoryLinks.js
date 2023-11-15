@@ -116,6 +116,7 @@ const allCategoryList = new Map([
   ...expenseCategoryList,
 ]);
 
+
 // Functions Related to Category Queries
 
 // Function to get all income category objects in form of an array
@@ -133,6 +134,13 @@ const getExpenseCategoryArray = () => {
 // Function to get all category objects in form of an array
 const getAllCategoryArray = () => {
   const res = [...allCategoryList.values()];
+  res.sort((a,b)=>{
+    let c1=a.categoryTitle;
+    let c2=b.categoryTitle;
+    if(c1>c2) return 1;
+    else if(c1<c2) return -1;
+    return 0;
+  })
   return res;
 };
 
