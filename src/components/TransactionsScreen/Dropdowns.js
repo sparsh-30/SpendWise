@@ -1,30 +1,34 @@
 import {View, Image} from 'react-native';
-import {useState,useEffect} from 'react';
+import {useState} from 'react';
 import MyText from '../../MyText';
 import DropDownPicker from 'react-native-dropdown-picker';
 import Icon from 'react-native-vector-icons/AntDesign';
 import Check from 'react-native-vector-icons/Ionicons';
 import {useSelector} from 'react-redux';
 import colors from '../../colors';
-import {getIncomeCategoryArray,getExpenseCategoryArray,getAllCategoryArray} from './../../categoryLinks';
+import {
+  getIncomeCategoryArray,
+  getExpenseCategoryArray,
+  getAllCategoryArray,
+} from './../../categoryLinks';
 
 export default function Dropdowns() {
-  const [category,setCategory]=useState("both");
+  const [category, setCategory] = useState('both');
 
-  function setSelectedCategory(selectedCategory){
+  function setSelectedCategory(selectedCategory) {
     setCategory(selectedCategory);
   }
 
   return (
-    <View className="flex flex-row px-2">
-      <View className="w-[45%] h-20">
-        <View className="w-11/12 mx-auto">
+    <View className="flex flex-row px-2 my-5">
+      <View className="w-[40%] h-20 px-1">
+        <View className="mx-auto">
           <MyText class="text-center mb-1">Income/Expense</MyText>
           <TransactionTypeDropdown setSelectedCategory={setSelectedCategory} />
         </View>
       </View>
-      <View className="w- h-20 mx-auto">
-        <View className="w-[55%] mx-auto">
+      <View className="w-[60%] h-20 px-1">
+        <View className="mx-auto">
           <MyText class="text-center mb-1">Select Category</MyText>
           <CategoryDropdown viewCategoriesFor={category} />
         </View>
@@ -55,8 +59,9 @@ const TransactionTypeDropdown = ({setSelectedCategory}) => {
       itemSeparator={true}
       closeOnBackPressed={true}
       closeAfterSelecting={true}
+      zIndex={1000}
       placeholder="Both"
-      onSelectItem={(item)=> setSelectedCategory(item.value)}
+      onSelectItem={item => setSelectedCategory(item.value)}
       textStyle={{
         color: 'white',
         fontSize: 16,
@@ -111,15 +116,15 @@ const CategoryDropdown = ({viewCategoriesFor}) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(null);
 
-  function getCategoriesFromTransaction(transactionType){
-    if(transactionType==='both') return getAllCategoryArray();
-    else if(transactionType==='income') return getIncomeCategoryArray();
+  function getCategoriesFromTransaction(transactionType) {
+    if (transactionType === 'both') return getAllCategoryArray();
+    else if (transactionType === 'income') return getIncomeCategoryArray();
     else return getExpenseCategoryArray();
   }
 
   const getCategoryArray = getCategoriesFromTransaction(viewCategoriesFor);
 
-  const items = getCategoryArray.map(category => {
+  let items = getCategoryArray.map(category => {
     return {
       label: category.categoryTitle,
       value: category.categoryTitle,
@@ -128,6 +133,11 @@ const CategoryDropdown = ({viewCategoriesFor}) => {
       ),
     };
   });
+
+  items.unshift({
+    label: "None",
+    value: "none"
+  })
 
   return (
     <DropDownPicker
@@ -140,7 +150,14 @@ const CategoryDropdown = ({viewCategoriesFor}) => {
       itemSeparator={true}
       closeOnBackPressed={true}
       closeAfterSelecting={true}
-      placeholder={viewCategoriesFor==='both'?'All':viewCategoriesFor==='income'?'Income':'Expense'}
+      zIndex={1000}
+      placeholder={
+        viewCategoriesFor === 'both'
+          ? 'All'
+          : viewCategoriesFor === 'income'
+          ? 'Income'
+          : 'Expense'
+      }
       textStyle={{
         color: 'white',
         fontSize: 16,

@@ -21,7 +21,7 @@ export default function Header() {
   };
 
   return (
-    <View className="flex flex-row justify-between pt-2 pb-5">
+    <View className="flex flex-row justify-between pt-2">
       <Text style={{color:theme==='light'?colors.light.primary:colors.dark.primary}} className="text-2xl my-2 font-[700]">TRANSACTIONS</Text>
       <Switch
         trackColor={{false: '#767577', true: '#81b0ff'}}

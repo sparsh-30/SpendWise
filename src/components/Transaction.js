@@ -12,6 +12,7 @@ const RTCard = props => {
       <View
         className="my-2 px-3 py-3 flex flex-row items-center rounded-lg"
         style={{
+          zIndex:100,
           shadowColor:
             theme === 'light' ? colors.light.shadow : colors.dark.shadow,
           elevation: 5,
