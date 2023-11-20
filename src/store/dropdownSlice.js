@@ -4,7 +4,7 @@ const dropdownSlice = createSlice({
   name: 'dropdowns',
   initialState: {
     transactionType: 'both',
-    category: 'none',
+    category: 'all',
   },
   reducers: {
     setTransactionType: (state, action) => {

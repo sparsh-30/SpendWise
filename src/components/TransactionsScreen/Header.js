@@ -1,7 +1,6 @@
 import { View, Text, Switch } from 'react-native'
 import { useState } from 'react';
-import {useSelector} from 'react-redux';
-import {useDispatch} from 'react-redux';
+import {useSelector,useDispatch} from 'react-redux';
 import {switchToDark, switchToLight} from '../../store/themeSlice';
 import colors from '../../colors';
 

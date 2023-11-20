@@ -1,16 +1,17 @@
 import {View, Image} from 'react-native';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import MyText from '../../MyText';
 import DropDownPicker from 'react-native-dropdown-picker';
 import Icon from 'react-native-vector-icons/AntDesign';
 import Check from 'react-native-vector-icons/Ionicons';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import colors from '../../colors';
 import {
   getIncomeCategoryArray,
   getExpenseCategoryArray,
   getAllCategoryArray,
 } from './../../categoryLinks';
+import {setTransactionType, setCategory} from '../../store/dropdownSlice';
 
 export default function Dropdowns() {
   const [category, setCategory] = useState('both');
@@ -37,11 +38,12 @@ export default function Dropdowns() {
   );
 }
 
-const TransactionTypeDropdown = ({setSelectedCategory}) => {
+const TransactionTypeDropdown = () => {
+  const dispatch = useDispatch();
   const theme = useSelector(state => state.theme.theme);
 
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
+  const [value, setValue] = useState('both');
   const [items, setItems] = useState([
     {label: 'Both', value: 'both'},
     {label: 'Expense', value: 'expense'},
@@ -61,7 +63,10 @@ const TransactionTypeDropdown = ({setSelectedCategory}) => {
       closeAfterSelecting={true}
       zIndex={1000}
       placeholder="Both"
-      onSelectItem={item => setSelectedCategory(item.value)}
+      onChangeValue={value => {
+        dispatch(setTransactionType(value));
+        dispatch(setCategory('all'));
+      }}
       textStyle={{
         color: 'white',
         fontSize: 16,
@@ -110,11 +115,15 @@ const TransactionTypeDropdown = ({setSelectedCategory}) => {
   );
 };
 
-const CategoryDropdown = ({viewCategoriesFor}) => {
+const CategoryDropdown = () => {
+  const dispatch = useDispatch();
   const theme = useSelector(state => state.theme.theme);
+  const viewCategoriesFor = useSelector(
+    state => state.dropdown.transactionType,
+  );
 
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(null);
+  const [value, setValue] = useState('all');
 
   function getCategoriesFromTransaction(transactionType) {
     if (transactionType === 'both') return getAllCategoryArray();
@@ -135,9 +144,13 @@ const CategoryDropdown = ({viewCategoriesFor}) => {
   });
 
   items.unshift({
-    label: "None",
-    value: "none"
-  })
+    label: 'All',
+    value: 'all',
+  });
+
+  useEffect(() => {
+    setValue('all');
+  }, [viewCategoriesFor]);
 
   return (
     <DropDownPicker
@@ -146,6 +159,7 @@ const CategoryDropdown = ({viewCategoriesFor}) => {
       items={items}
       setOpen={setOpen}
       max={1}
+      onChangeValue={value => dispatch(setCategory(value))}
       setValue={setValue}
       itemSeparator={true}
       closeOnBackPressed={true}
