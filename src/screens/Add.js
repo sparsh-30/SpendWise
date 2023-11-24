@@ -1,9 +1,18 @@
 import {View, Text} from 'react-native';
 import {useMemo, useCallback} from 'react';
-import BottomSheet, {BottomSheetBackdrop,useBottomSheetSpringConfigs} from '@gorhom/bottom-sheet';
+import BottomSheet, {
+  BottomSheetBackdrop,
+  useBottomSheetSpringConfigs,
+  BottomSheetScrollView,
+} from '@gorhom/bottom-sheet';
+import AddForm from '../components/AddScreen/AddForm';
+import {useSelector} from 'react-redux';
+import colors from '../colors';
 
 export default function Add({bottomSheetRef}) {
   const snapPoints = useMemo(() => ['25%', '50%', '75%', '100%'], []);
+
+  const theme = useSelector(state => state.theme.theme);
 
   const renderBackdrop = useCallback(
     props => (
@@ -31,13 +40,20 @@ export default function Add({bottomSheetRef}) {
       ref={bottomSheetRef}
       snapPoints={snapPoints}
       index={-1}
-      detached={true}
-      style={{marginHorizontal:3}}
-      backgroundStyle={{backgroundColor:'white',borderRadius:15}}
+      style={{marginHorizontal: 3}}
+      handleIndicatorStyle={{
+        backgroundColor:
+          theme === 'light' ? colors.light.primary : colors.dark.primary,
+      }}
+      backgroundStyle={{
+        backgroundColor:
+          theme === 'light' ? colors.light.background : colors.dark.background,
+        borderRadius: 15,
+      }}
       backdropComponent={renderBackdrop}>
-      <View>
-        <Text>Awesome 🎉</Text>
-      </View>
+      {/* <BottomSheetScrollView> */}
+        <AddForm />
+      {/* </BottomSheetScrollView> */}
     </BottomSheet>
   );
 }
