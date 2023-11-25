@@ -39,7 +39,6 @@ const RTCard = props => {
               }}>
               {props.title}
             </Text>
-            {/* <MyText>{props.category}</MyText> */}
             <MyText>{props.time}</MyText>
           </View>
           <Text

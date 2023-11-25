@@ -49,7 +49,7 @@ export default function BottomTabs() {
           headerShown: false,
         })}>
         <Tab.Screen
-          name="Dashboard"
+          name="HomeScreen"
           component={HomeScreen}
           options={{
             tabBarIcon: ({focused}) => (
@@ -69,7 +69,7 @@ export default function BottomTabs() {
           }}
         />
         <Tab.Screen
-          name="History"
+          name="TransactionsScreen"
           component={TransactionsScreen}
           options={{
             tabBarIcon: ({focused}) => (
@@ -89,7 +89,7 @@ export default function BottomTabs() {
           }}
         />
         <Tab.Screen
-          name="Create"
+          name="Add"
           component={Add}
           options={{
             tabBarButton: ({focused}) => (
@@ -120,7 +120,7 @@ export default function BottomTabs() {
           }}
         />
         <Tab.Screen
-          name="Statistics"
+          name="AnalyticsScreen"
           component={AnalyticsScreen}
           options={{
             tabBarIcon: ({focused}) => (
@@ -140,7 +140,7 @@ export default function BottomTabs() {
           }}
         />
         <Tab.Screen
-          name="About"
+          name="SettingsScreen"
           component={SettingsScreen}
           options={{
             tabBarIcon: ({focused}) => (

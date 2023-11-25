@@ -146,6 +146,7 @@ const getAllCategoryArray = () => {
 
 // Function to get the category object from the category title
 const getObjectFromCategoryName = categoryName => {
+  // console.log()
   return allCategoryList.get(categoryName);
 };
 
