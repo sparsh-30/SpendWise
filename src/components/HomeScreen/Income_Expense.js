@@ -5,11 +5,13 @@ import colors from '../../colors';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 export default function Income_Expense() {
+  const totalExpense=useSelector((state)=> state.transactions.totalExpense);
+  const totalIncome=useSelector((state)=> state.transactions.totalIncome);
   return (
     <View className="my-5">
       <View className="flex flex-row justify-evenly">
-        <Card expense={false} value="2000" />
-        <Card expense={true} value="5000" />
+        <Card expense={false} value={totalIncome} />
+        <Card expense={true} value={totalExpense} />
       </View>
     </View>
   );
@@ -46,7 +48,7 @@ const Card = props => {
           }}
           className="text-[20px] font-bold">
           {' '}
-          ₹ {props.value}
+          ₹ {Number(props.value)}
         </Text>
       </View>
       <TouchableOpacity
