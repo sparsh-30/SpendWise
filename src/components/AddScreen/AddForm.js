@@ -5,6 +5,7 @@ import {
   TextInput,
   Image,
   Button,
+  ActivityIndicator
 } from 'react-native';
 import {useState, useEffect} from 'react';
 import {Formik} from 'formik';
@@ -21,9 +22,12 @@ import {
 import RNDateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import {setTransactionsArray} from '../../store/TransactionsSlice';
+import { saveTransactionData } from '../../store/TransactionsSlice';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function AddForm() {
   const theme = useSelector(state => state.theme.theme);
+  const transactionsData=useSelector(state => state.transactions);
   const dispatch = useDispatch();
 
   // For Transaction Type and Transaction Category
@@ -43,6 +47,7 @@ export default function AddForm() {
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
+  const [loading,setLoading] = useState(false);
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
@@ -81,10 +86,24 @@ export default function AddForm() {
       category: selectedCategory,
       date: tempDate,
     };
-    dispatch(setTransactionsArray(transactionObject));
+    const tempArray=[transactionObject,...transactionsData.transactions]
+    // console.log(typeof(values.amount));
+    const dataToSave={
+      totalExpense: (selectedCategory!=='expense')?Number(transactionsData.totalExpense)+Number(values.amount):Number(transactionsData.totalExpense),
+      totalIncome: (selectedCategory==='expense')?Number(transactionsData.totalIncome)+Number(values.amount):Number(transactionsData.totalIncome),
+      transactions: tempArray
+    }
+    dispatch(saveTransactionData(dataToSave));
     resetForm();
     setPlaceholder('Date of the transaction');
   };
+
+
+  const demoPress=async()=>{
+    const data=await AsyncStorage.getItem('transactions-data');
+    const temp=JSON.parse(data);
+    console.log(temp);
+  }
 
   return (
     <View className="flex-1 mt-4">
@@ -259,12 +278,16 @@ export default function AddForm() {
               </View>
               {/* Submit Button */}
               <View className="w-5/6 mx-auto mt-8 rounded-md overflow-hidden">
-                <Button title="Submit" color={theme==='light'?colors.light.primary:colors.dark.primary} disabled={!((values.title.length>=4 && values.title.length<=32) && values.title!=="" && (values.amount>=1 && values.amount<=100000) && values.amount!=="" && placeholder!=="Date of the transaction")} />
+                <Button title="Submit" onPress={handleSubmit} color={theme==='light'?colors.light.primary:colors.dark.primary} disabled={!((values.title.length>=4 && values.title.length<=32) && values.title!=="" && (values.amount>=1 && values.amount<=100000) && values.amount!=="" && placeholder!=="Date of the transaction")} />
               </View>
+              <Button title='Demo' onPress={demoPress} /> 
             </View>
           );
         }}
       </Formik>
+      {/* <View className="absolute top-0 w-full h-full flex-1 bg-black z-[5000]">
+        <Text>df</Text>
+      </View> */}
     </View>
   );
 }

@@ -1,5 +1,5 @@
 import {NavigationContainer} from '@react-navigation/native';
-import {useRef} from 'react';
+import {useRef,useEffect} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {View, Platform, StatusBar, TouchableNativeFeedback} from 'react-native';
 import Home from 'react-native-vector-icons/Entypo';
@@ -12,14 +12,33 @@ import Add from '../screens/Add';
 import AnalyticsScreen from '../screens/AnalyticsScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import colors from '../colors';
-import {useSelector} from 'react-redux';
+import {useSelector,useDispatch} from 'react-redux';
+import { initialiseData } from '../store/TransactionsSlice';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Tab = createBottomTabNavigator();
 
 export default function BottomTabs() {
   const theme = useSelector(state => state.theme.theme);
+  const dispatch=useDispatch();
 
   const bottomSheetRef = useRef(null);
+
+  const getData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('transactions-data');
+      if (value !== null) {
+        const temp=JSON.parse(value);
+        dispatch(initialiseData(temp));
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(()=>{
+    getData();
+  },[])
 
   return (
     <NavigationContainer>
