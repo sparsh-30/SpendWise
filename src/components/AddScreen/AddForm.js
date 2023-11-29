@@ -23,7 +23,12 @@ import RNDateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 import {setTransactionsArray} from '../../store/TransactionsSlice';
 import {saveTransactionData} from '../../store/TransactionsSlice';
+import {
+  closeBottomSheet,
+  setTransactionType,
+} from '../../store/bottomSheetSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useBottomSheet} from '@gorhom/bottom-sheet';
 
 export default function AddForm() {
   const theme = useSelector(state => state.theme.theme);
@@ -32,6 +37,7 @@ export default function AddForm() {
     state => state.bottomSheet.transactionType,
   );
   const dispatch = useDispatch();
+  const {close} = useBottomSheet();
 
   // For Transaction Type and Transaction Category
   const [selectedTransactionType, setSelectedTransactionType] =
@@ -111,6 +117,9 @@ export default function AddForm() {
     dispatch(saveTransactionData(dataToSave));
     resetForm();
     setPlaceholder('Date of the transaction');
+    dispatch(closeBottomSheet());
+    dispatch(setTransactionType('expense'));
+    close();
   };
 
   return (
