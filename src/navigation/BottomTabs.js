@@ -28,7 +28,6 @@ export default function BottomTabs() {
   const onAppInitialization = async () => {
     try {
       const theme = await AsyncStorage.getItem('theme');
-      console.log(theme);
       if(theme===null){
         const systemTheme=Appearance.getColorScheme();
         dispatch(toggleMode(systemTheme));

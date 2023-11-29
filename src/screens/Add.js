@@ -5,14 +5,21 @@ import BottomSheet, {
   useBottomSheetSpringConfigs,
   BottomSheetScrollView,
 } from '@gorhom/bottom-sheet';
+import {useEffect} from 'react';
 import AddForm from '../components/AddScreen/AddForm';
-import {useSelector} from 'react-redux';
+import {useSelector,useDispatch} from 'react-redux';
+import { closeBottomSheet, setTransactionType } from '../store/bottomSheetSlice';
+import { useBottomSheet } from '@gorhom/bottom-sheet';
 import colors from '../colors';
 
 export default function Add({bottomSheetRef}) {
   const snapPoints = useMemo(() => ['25%', '50%', '75%', '100%'], []);
 
   const theme = useSelector(state => state.theme.theme);
+  const currentState=useSelector(state => state.bottomSheet.currentState);
+  const dispatch=useDispatch();
+
+  // const {snapToIndex}=useBottomSheet();
 
   const renderBackdrop = useCallback(
     props => (
@@ -33,11 +40,23 @@ export default function Add({bottomSheetRef}) {
     stiffness: 500,
   });
 
+  const handleChange = (ind) => {
+    if(ind===-1){
+      dispatch(closeBottomSheet());
+      dispatch(setTransactionType('expense'));
+    }
+  }
+
+  useEffect(()=>{
+    if(currentState==='open') bottomSheetRef.current.snapToIndex(2);
+    else bottomSheetRef.current.snapToIndex(-1);
+  },[currentState])
+
   return (
     <BottomSheet
       animationConfigs={animationConfigs}
       enablePanDownToClose={true}
-      onChange={(ind)=> console.log(ind)}
+      onChange={(ind)=> handleChange(ind)}
       overDragResistanceFactor={50}
       ref={bottomSheetRef}
       snapPoints={snapPoints}
