@@ -86,11 +86,12 @@ export default function AddForm() {
       category: selectedCategory,
       date: tempDate,
     };
-    const tempArray=[transactionObject,...transactionsData.transactions]
-    // console.log(typeof(values.amount));
+
+    const tempArray=[transactionObject,...transactionsData.transactions];
+
     const dataToSave={
-      totalExpense: (selectedCategory!=='expense')?Number(transactionsData.totalExpense)+Number(values.amount):Number(transactionsData.totalExpense),
-      totalIncome: (selectedCategory==='expense')?Number(transactionsData.totalIncome)+Number(values.amount):Number(transactionsData.totalIncome),
+      totalExpense:selectedTransactionType==='expense'?transactionsData.totalExpense+=Number(values.amount):transactionsData.totalExpense,
+      totalIncome:selectedTransactionType==='income'?transactionsData.totalIncome+=Number(values.amount):transactionsData.totalIncome,
       transactions: tempArray
     }
     dispatch(saveTransactionData(dataToSave));
