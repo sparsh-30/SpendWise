@@ -1,5 +1,5 @@
 import {ScrollView, View, Text} from 'react-native';
-import Transaction from './../Transaction';
+import Transaction from './Transaction';
 import {useSelector} from 'react-redux';
 import colors from '../../colors';
 import DummyTransactionsArray from '../../DummyTrasactionsData';

@@ -37,6 +37,8 @@ export default function Add({bottomSheetRef}) {
     <BottomSheet
       animationConfigs={animationConfigs}
       enablePanDownToClose={true}
+      onChange={(ind)=> console.log(ind)}
+      overDragResistanceFactor={50}
       ref={bottomSheetRef}
       snapPoints={snapPoints}
       index={-1}

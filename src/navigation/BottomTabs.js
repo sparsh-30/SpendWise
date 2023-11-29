@@ -1,7 +1,7 @@
 import {NavigationContainer} from '@react-navigation/native';
 import {useRef,useEffect} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {View, Platform, StatusBar, TouchableNativeFeedback} from 'react-native';
+import {View, Platform, StatusBar, TouchableNativeFeedback, Appearance} from 'react-native';
 import Home from 'react-native-vector-icons/Entypo';
 import Transactions from 'react-native-vector-icons/FontAwesome6';
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -14,6 +14,7 @@ import SettingsScreen from '../screens/SettingsScreen';
 import colors from '../colors';
 import {useSelector,useDispatch} from 'react-redux';
 import { initialiseData } from '../store/TransactionsSlice';
+import { toggleMode } from '../store/themeSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Tab = createBottomTabNavigator();
@@ -24,8 +25,18 @@ export default function BottomTabs() {
 
   const bottomSheetRef = useRef(null);
 
-  const getData = async () => {
+  const onAppInitialization = async () => {
     try {
+      const theme = await AsyncStorage.getItem('theme');
+      console.log(theme);
+      if(theme===null){
+        const systemTheme=Appearance.getColorScheme();
+        dispatch(toggleMode(systemTheme));
+      }
+      else{
+        dispatch(toggleMode(theme));
+      }
+
       const value = await AsyncStorage.getItem('transactions-data');
       if (value !== null) {
         const temp=JSON.parse(value);
@@ -37,7 +48,7 @@ export default function BottomTabs() {
   };
 
   useEffect(()=>{
-    getData();
+    onAppInitialization();
   },[])
 
   return (
@@ -81,7 +92,7 @@ export default function BottomTabs() {
                 <Home
                   name="home"
                   size={30}
-                  color={focused ? 'white' : '#9594e5'}
+                  color={focused ? 'white' : '#B6BBC4'}
                 />
               </View>
             ),
@@ -101,7 +112,7 @@ export default function BottomTabs() {
                 <Transactions
                   name="money-bill-transfer"
                   size={28}
-                  color={focused ? 'white' : '#9594e5'}
+                  color={focused ? 'white' : '#B6BBC4'}
                 />
               </View>
             ),
@@ -152,7 +163,7 @@ export default function BottomTabs() {
                 <Graph
                   name="graph"
                   size={30}
-                  color={focused ? 'white' : '#9594e5'}
+                  color={focused ? 'white' : '#B6BBC4'}
                 />
               </View>
             ),
@@ -172,7 +183,7 @@ export default function BottomTabs() {
                 <Icon
                   name="setting"
                   size={30}
-                  color={focused ? 'white' : '#9594e5'}
+                  color={focused ? 'white' : '#B6BBC4'}
                 />
               </View>
             ),

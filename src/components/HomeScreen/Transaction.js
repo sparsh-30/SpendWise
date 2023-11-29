@@ -1,8 +1,8 @@
 import {View, Text, TouchableNativeFeedback, Image} from 'react-native';
-import MyText from './../MyText';
-import colors from './../colors';
+import MyText from './../../MyText';
+import colors from './../../colors';
 import {useSelector} from 'react-redux';
-import {getObjectFromCategoryName} from './../categoryLinks';
+import {getObjectFromCategoryName} from './../../categoryLinks';
 
 const RTCard = props => {
   const theme = useSelector(state => state.theme.theme);

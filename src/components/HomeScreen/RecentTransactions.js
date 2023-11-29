@@ -4,7 +4,8 @@ import MyText from '../../MyText';
 import colors from '../../colors';
 import {useSelector,useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/Entypo';
-import Transaction from './../Transaction';
+import Transaction from './Transaction';
+// import Transaction from './../Transaction';
 import DummyTransactionsArray from '../../DummyTrasactionsData';
 
 export default function RecentTransactions() {

@@ -1,26 +1,25 @@
-import {View, Text, Image, Switch} from 'react-native';
-import {useState} from 'react';
+import {View, Text, Image, TouchableNativeFeedback} from 'react-native';
 import MyText from '../../MyText';
 import avatar_image from './../../../assets/avatar.jpg';
+import Icon from 'react-native-vector-icons/Ionicons';
 import {useSelector} from 'react-redux';
 import {useDispatch} from 'react-redux';
-import {switchToDark, switchToLight} from '../../store/themeSlice';
+import { toggleMode } from '../../store/themeSlice';
 import colors from '../../colors';
 
 export default function Header() {
   const theme = useSelector(state => state.theme.theme);
   const dispatch = useDispatch();
 
-  const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => {
-    if (isEnabled === false) {
-      dispatch(switchToDark());
-      setIsEnabled(true);
-    } else {
-      dispatch(switchToLight());
-      setIsEnabled(false);
-    }
+    const currentTheme=theme;
+    if (theme === 'light') dispatch(toggleMode('dark'));
+    else dispatch(toggleMode('light'));
   };
+  // const toggleSwitch = () => {
+  //   if (theme === 'light') dispatch(switchToDark());
+  //   else dispatch(switchToLight());
+  // };
 
   return (
     <View className="flex flex-row justify-between">
@@ -41,13 +40,15 @@ export default function Header() {
           </Text>
         </View>
       </View>
-      <Switch
-        trackColor={{false: '#767577', true: '#81b0ff'}}
-        // thumbColor={isEnabled ? '#f5dd4b' : '#f4f3f4'}
-        ios_backgroundColor="#3e3e3e"
-        onValueChange={toggleSwitch}
-        value={isEnabled}
-      />
+      <View className="flex flex-row items-center justify-center mr-6">
+        <TouchableNativeFeedback onPress={() => toggleSwitch()}>
+          {theme === 'light' ? (
+            <Icon name="sunny" size={32} color="#FDB813" />
+          ) : (
+            <Icon name="moon" size={28} color="#FDB813" />
+          )}
+        </TouchableNativeFeedback>
+      </View>
     </View>
   );
 }

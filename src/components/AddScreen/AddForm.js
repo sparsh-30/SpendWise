@@ -281,7 +281,6 @@ export default function AddForm() {
               <View className="w-5/6 mx-auto mt-8 rounded-md overflow-hidden">
                 <Button title="Submit" onPress={handleSubmit} color={theme==='light'?colors.light.primary:colors.dark.primary} disabled={!((values.title.length>=4 && values.title.length<=32) && values.title!=="" && (values.amount>=1 && values.amount<=100000) && values.amount!=="" && placeholder!=="Date of the transaction")} />
               </View>
-              <Button title='Demo' onPress={demoPress} /> 
             </View>
           );
         }}
