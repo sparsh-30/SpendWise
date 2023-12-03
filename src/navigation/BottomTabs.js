@@ -3,17 +3,18 @@ import {useRef,useEffect} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {View, Platform, StatusBar, TouchableNativeFeedback, Appearance} from 'react-native';
 import Home from 'react-native-vector-icons/Entypo';
-import Transactions from 'react-native-vector-icons/FontAwesome6';
 import Icon from 'react-native-vector-icons/AntDesign';
+import Icon2 from 'react-native-vector-icons/FontAwesome6';
 import Graph from 'react-native-vector-icons/Octicons';
 import HomeScreen from '../screens/HomeScreen';
 import TransactionsScreen from '../screens/TransactionsScreen';
 import Add from '../screens/Add';
 import AnalyticsScreen from '../screens/AnalyticsScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 import colors from '../colors';
 import {useSelector,useDispatch} from 'react-redux';
 import { initialiseData } from '../store/TransactionsSlice';
+import { openBottomSheet } from '../store/bottomSheetSlice';
 import { toggleMode } from '../store/themeSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -73,6 +74,7 @@ export default function BottomTabs() {
               theme === 'light' ? colors.light.primary : colors.dark.primary,
             borderRadius: 10,
             height: 50,
+            zIndex: 300
           },
           tabBarShowLabel: false,
           headerShown: false,
@@ -108,7 +110,7 @@ export default function BottomTabs() {
                     // top: Platform.OS === 'ios' ? 10 : 0,
                   }
                 }>
-                <Transactions
+                <Icon2
                   name="money-bill-transfer"
                   size={28}
                   color={focused ? 'white' : '#B6BBC4'}
@@ -123,7 +125,7 @@ export default function BottomTabs() {
           options={{
             tabBarButton: ({focused}) => (
               <TouchableNativeFeedback
-                onPress={() => bottomSheetRef.current.snapToIndex(2)}>
+                onPress={() => dispatch(openBottomSheet())}>
                 <View
                   style={{
                     top: -20,
@@ -169,8 +171,8 @@ export default function BottomTabs() {
           }}
         />
         <Tab.Screen
-          name="SettingsScreen"
-          component={SettingsScreen}
+          name="ProfileScreen"
+          component={ProfileScreen}
           options={{
             tabBarIcon: ({focused}) => (
               <View
@@ -179,8 +181,8 @@ export default function BottomTabs() {
                     // top: Platform.OS === 'ios' ? 10 : 0,
                   }
                 }>
-                <Icon
-                  name="setting"
+                <Icon2
+                  name="circle-user"
                   size={30}
                   color={focused ? 'white' : '#B6BBC4'}
                 />

@@ -1,4 +1,4 @@
-import {View, Text, TouchableNativeFeedback, Image} from 'react-native';
+import {View, Text, Image} from 'react-native';
 import MyText from './../../MyText';
 import colors from './../../colors';
 import {useSelector} from 'react-redux';
@@ -8,14 +8,14 @@ const RTCard = props => {
   const theme = useSelector(state => state.theme.theme);
   const categoryObject = getObjectFromCategoryName(props.category);
   return (
-    <TouchableNativeFeedback>
+    <View>
       <View
         className="my-2 px-3 py-3 flex flex-row items-center rounded-lg"
         style={{
           zIndex:100,
           shadowColor:
             theme === 'light' ? colors.light.shadow : colors.dark.shadow,
-          elevation: 5,
+          elevation: 10,
           backgroundColor:
             theme === 'light'
               ? colors.light.background
@@ -48,7 +48,7 @@ const RTCard = props => {
           </Text>
         </View>
       </View>
-    </TouchableNativeFeedback>
+      </View>
   );
 };
 

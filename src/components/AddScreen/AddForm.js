@@ -28,7 +28,7 @@ import {
   setTransactionType,
 } from '../../store/bottomSheetSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useBottomSheet} from '@gorhom/bottom-sheet';
+import {BottomSheetScrollView} from '@gorhom/bottom-sheet';
 
 export default function AddForm() {
   const theme = useSelector(state => state.theme.theme);
@@ -37,7 +37,6 @@ export default function AddForm() {
     state => state.bottomSheet.transactionType,
   );
   const dispatch = useDispatch();
-  const {close} = useBottomSheet();
 
   // For Transaction Type and Transaction Category
   const [selectedTransactionType, setSelectedTransactionType] =
@@ -89,6 +88,26 @@ export default function AddForm() {
     setPlaceholder(date);
   };
 
+  const sortTransaction = (transaction,allTransactions) => {
+    if(allTransactions.length===0) return [transaction];
+    let temp=[...allTransactions];
+    let left = 0;
+    let right = temp.length - 1;
+    const transactionDate=Number(moment(transaction.date,"DD/MM/YYYY, h:mm a").format("YYYYMMDDHHmm"));
+    while(left<=right){
+      const mid = Math.floor((left + right) / 2);
+      midDate=Number(moment(temp[mid].date,"DD/MM/YYYY, h:mm a").format("YYYYMMDDHHmm"));
+      if(midDate===transactionDate){
+        temp.splice(mid,0,transaction);
+        return temp;
+      }
+      else if(midDate<transactionDate) right=mid-1;
+      else left=mid+1;
+    }
+    temp.splice(left,0,transaction);
+    return temp;
+  }
+
   const handleFormSubmit = (values, resetForm) => {
     const tempDate = moment(placeholder, dateTimeFormat).format(
       'DD/MM/YYYY, h:mm a',
@@ -101,7 +120,7 @@ export default function AddForm() {
       date: tempDate,
     };
 
-    const tempArray = [transactionObject, ...transactionsData.transactions];
+    const tempArray=sortTransaction(transactionObject,transactionsData.transactions);
 
     const dataToSave = {
       totalExpense:
@@ -117,12 +136,12 @@ export default function AddForm() {
     dispatch(saveTransactionData(dataToSave));
     resetForm();
     setPlaceholder('Date of the transaction');
-    dispatch(closeBottomSheet());
     dispatch(setTransactionType('expense'));
-    close();
+    dispatch(closeBottomSheet());
   };
 
   return (
+    <BottomSheetScrollView>
     <View className="flex-1 mt-4">
       <Text
         style={{
@@ -350,6 +369,7 @@ export default function AddForm() {
         <Text>df</Text>
       </View> */}
     </View>
+    </BottomSheetScrollView>
   );
 }
 
@@ -401,6 +421,7 @@ const TransactionTypeDropdown = ({
       setValue={setValue}
       setItems={setItems}
       itemSeparator={true}
+      listMode='SCROLLVIEW'
       closeOnBackPressed={true}
       closeAfterSelecting={true}
       zIndex={1000}

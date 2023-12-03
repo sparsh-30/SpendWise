@@ -37,7 +37,7 @@ export default function TransactionsContainer() {
               backgroundColor:
                 theme === 'light' ? colors.light.primary : colors.dark.primary,
             }}
-            className="text-lg py-2 w-5/6 mx-auto mt-5 text-white text-center font-[800] rounded-xl">
+            className="text-lg py-1 w-5/6 mx-auto mt-5 text-white text-center font-[800] rounded-full">
             No transactions to show
           </Text>
         )}

@@ -12,14 +12,9 @@ export default function Header() {
   const dispatch = useDispatch();
 
   const toggleSwitch = () => {
-    const currentTheme=theme;
     if (theme === 'light') dispatch(toggleMode('dark'));
     else dispatch(toggleMode('light'));
   };
-  // const toggleSwitch = () => {
-  //   if (theme === 'light') dispatch(switchToDark());
-  //   else dispatch(switchToLight());
-  // };
 
   return (
     <View className="flex flex-row justify-between">

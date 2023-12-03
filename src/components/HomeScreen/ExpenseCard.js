@@ -2,11 +2,11 @@ import {View, Image, Text} from 'react-native';
 import wave from './../../../assets/wave.png';
 import mastercard_icon from './../../../assets/mastercard.png';
 import React from 'react';
-import { useSelector } from 'react-redux';
+import {useSelector} from 'react-redux';
 
 export default function ExpenseCard() {
-  const totalExpense=useSelector((state)=> state.transactions.totalExpense);
-  const totalIncome=useSelector((state)=> state.transactions.totalIncome);
+  const totalExpense = useSelector(state => state.transactions.totalExpense);
+  const totalIncome = useSelector(state => state.transactions.totalIncome);
   return (
     <View>
       <View className="w-11/12 h-48 mx-auto">
@@ -20,7 +20,9 @@ export default function ExpenseCard() {
               <Text className="text-white font-extrabold text-xl">
                 TOTAL BALANCE:
               </Text>
-              <Text className="text-white font-extrabold text-xl">₹ {totalIncome-totalExpense}</Text>
+              <Text className="text-white font-extrabold text-xl">
+                ₹ {totalIncome - totalExpense}
+              </Text>
             </View>
             <Text className="text-white font-semibold">Aiden Pierce</Text>
           </View>

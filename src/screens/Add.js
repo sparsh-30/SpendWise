@@ -1,9 +1,7 @@
-import {View, Text} from 'react-native';
 import {useMemo, useCallback} from 'react';
 import BottomSheet, {
   BottomSheetBackdrop,
   useBottomSheetSpringConfigs,
-  BottomSheetScrollView,
 } from '@gorhom/bottom-sheet';
 import {useEffect} from 'react';
 import AddForm from '../components/AddScreen/AddForm';
@@ -18,8 +16,6 @@ export default function Add({bottomSheetRef}) {
   const theme = useSelector(state => state.theme.theme);
   const currentState=useSelector(state => state.bottomSheet.currentState);
   const dispatch=useDispatch();
-
-  // const {snapToIndex}=useBottomSheet();
 
   const renderBackdrop = useCallback(
     props => (
@@ -49,7 +45,7 @@ export default function Add({bottomSheetRef}) {
 
   useEffect(()=>{
     if(currentState==='open') bottomSheetRef.current.snapToIndex(2);
-    else bottomSheetRef.current.snapToIndex(-1);
+    else bottomSheetRef.current.close();
   },[currentState])
 
   return (

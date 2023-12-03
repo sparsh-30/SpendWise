@@ -7,8 +7,7 @@ import store from './src/store/store';
 export default function App() {
   return (
     <GestureHandlerRootView style={{flex: 1}}>
-      <Provider store={store}>
-        <SafeAreaProvider>
+      <Provider store={store}><SafeAreaProvider>
           <BottomTabs />
         </SafeAreaProvider>
       </Provider>
