@@ -13,7 +13,7 @@ export default function TransactionsScreen() {
       <Header />
       <Dropdowns />
       <TransactionsContainer />
-      <View className="h-20"></View>
+      {/* <View className="h-20"></View> */}
     </View>
   );
 }

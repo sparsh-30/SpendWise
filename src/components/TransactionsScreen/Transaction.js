@@ -15,7 +15,7 @@ const RTCard = props => {
           zIndex:100,
           shadowColor:
             theme === 'light' ? colors.light.shadow : colors.dark.shadow,
-          elevation: 10,
+          elevation: 5,
           backgroundColor:
             theme === 'light'
               ? colors.light.background

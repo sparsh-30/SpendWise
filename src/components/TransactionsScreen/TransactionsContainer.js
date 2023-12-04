@@ -30,7 +30,7 @@ export default function TransactionsContainer() {
 
   return (
     <ScrollView>
-      <View className="w-11/12 mx-auto">
+      <View className="w-11/12 pb-20 mx-auto">
         {transactionsArray.length === 0 && (
           <Text
             style={{
