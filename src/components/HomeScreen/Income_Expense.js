@@ -57,7 +57,7 @@ const Card = props => {
           }}
           className="text-[20px] font-bold">
           {' '}
-          ₹ {Number(props.value)}
+          ₹ {(props.value).toLocaleString('en-IN')}
         </Text>
       </View>
       <TouchableOpacity

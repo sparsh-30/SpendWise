@@ -184,16 +184,16 @@ const BezierGraph = ({pastTransactionsData, tabIndex}) => {
           data={data}
           width={screenWidth}
           height={300}
+          // withDots={false}
           chartConfig={chartConfig}
           withInnerLines={false}
           withOuterLines={false}
-          yLabelsOffset={15}
+          yLabelsOffset={10}
           fromZero={true}
           formatYLabel={value => {
             value.toString();
             return value.slice(0, -3);
           }}
-          verticalLabelRotation={30}
           bezier
         />
       )}

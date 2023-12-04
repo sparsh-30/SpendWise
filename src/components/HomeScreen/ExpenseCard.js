@@ -21,7 +21,7 @@ export default function ExpenseCard() {
                 TOTAL BALANCE:
               </Text>
               <Text className="text-white font-extrabold text-xl">
-                ₹ {totalIncome - totalExpense}
+                ₹ {(totalIncome - totalExpense).toLocaleString('en-IN')}
               </Text>
             </View>
             <Text className="text-white font-semibold">Aiden Pierce</Text>

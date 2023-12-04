@@ -44,7 +44,7 @@ const RTCard = props => {
           <Text
             className="font-bold"
             style={{color: props.expense === true ? '#d32f2f' : '#2e7d32'}}>
-            {props.expense === true ? '-' : '+'} ₹ {props.value}
+            {props.expense === true ? '-' : '+'} ₹ {(Number(props.value)).toLocaleString('en-IN')}
           </Text>
         </View>
       </View>
