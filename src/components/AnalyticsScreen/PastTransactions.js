@@ -37,7 +37,7 @@ export default function PastTransactions() {
       }
     });
 
-    const past7DaysLabels = Object.keys(categorizedDates).sort((a, b) => {
+    let past7DaysLabels = Object.keys(categorizedDates).sort((a, b) => {
       const dateA = moment(a, 'D MMM');
       const dateB = moment(b, 'D MMM');
       return dateA - dateB;
@@ -59,6 +59,9 @@ export default function PastTransactions() {
       totalIncomeArray.push(totalIncomeOnTheDay);
       totalExpenseArray.push(totalExpenseOnTheDay);
     });
+
+    past7DaysLabels.pop();
+    past7DaysLabels.push('Today');
 
     setPastTransactionsData({
       past7DaysLabels: past7DaysLabels,
@@ -139,7 +142,7 @@ export default function PastTransactions() {
           </View>
         </TouchableNativeFeedback>
       </View>
-      <View className="w-5/6">
+      <View className="mx-auto rounded-xl overflow-hidden">
         <BezierGraph
           pastTransactionsData={pastTransactionsData}
           tabIndex={tabIndex}
@@ -154,7 +157,8 @@ const BezierGraph = ({pastTransactionsData, tabIndex}) => {
   const screenWidth = Dimensions.get('window').width;
 
   const data = {
-    labels: pastTransactionsData.past7DaysLabels,
+    labels: ['21 Dec','22 Dec','23 Dec','24 Dec','25 Dec','26 Dec','Today'],
+    // labels: pastTransactionsData.past7DaysLabels,
     datasets: [
       {
         data:
@@ -167,27 +171,35 @@ const BezierGraph = ({pastTransactionsData, tabIndex}) => {
 
   const chartConfig = {
     backgroundGradientFrom:
-      theme === 'light' ? colors.light.background : colors.dark.background,
+      theme === 'light' ? colors.light.graph : colors.dark.graph,
     backgroundGradientFromOpacity: 1,
     backgroundGradientTo:
-      theme === 'light' ? colors.light.background : colors.dark.background,
+      theme === 'light' ? colors.light.graph : colors.dark.graph,
     backgroundGradientToOpacity: 1,
     color: () =>
       theme === 'light' ? colors.light.primary : colors.dark.primary,
     strokeWidth: 3,
+    propsForBackgroundLines: {
+      strokeDasharray: '',
+    }
   };
 
   return (
-    <View>
+    <View
+      style={{
+        backgroundColor:
+          theme === 'light' ? colors.light.graph : colors.dark.graph,
+      }}
+      className="pt-5">
       {pastTransactionsData.past7DaysLabels.length !== 0 && (
         <LineChart
           data={data}
           width={screenWidth}
           height={300}
-          // withDots={false}
+          segments={5}
           chartConfig={chartConfig}
           withInnerLines={false}
-          withOuterLines={false}
+          // withOuterLines={false}
           yLabelsOffset={10}
           fromZero={true}
           formatYLabel={value => {

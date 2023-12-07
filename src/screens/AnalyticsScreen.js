@@ -1,6 +1,7 @@
 import { ScrollView } from 'react-native'
 import Header from '../components/AnalyticsScreen/Header'
 import PastTransactions from '../components/AnalyticsScreen/PastTransactions'
+import CategoryAnalysis from '../components/AnalyticsScreen/CategoryAnalysis'
 import { useSelector } from 'react-redux'
 import colors from '../colors'
 
@@ -11,6 +12,7 @@ export default function AnalyticsScreen() {
       style={{backgroundColor: theme === 'light' ? colors.light.background : colors.dark.background}} className="bg-white dark:bg-[#302D43] flex flex-1">
       <Header />
       <PastTransactions />
+      <CategoryAnalysis />
     </ScrollView>
   )
 }

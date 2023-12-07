@@ -22,6 +22,7 @@ const Tab = createBottomTabNavigator();
 
 export default function BottomTabs() {
   const theme = useSelector(state => state.theme.theme);
+  const currentState=useSelector(state => state.bottomSheet.currentState);
   const dispatch=useDispatch();
 
   const bottomSheetRef = useRef(null);
@@ -64,7 +65,8 @@ export default function BottomTabs() {
         screenOptions={() => ({
           tabBarHideOnKeyboard: true,
           tabBarStyle: {
-            display: 'flex',
+            display: currentState==='close'?'flex':'none',
+            // display: 'flex',
             position: 'absolute',
             bottom: 10,
             left: 20,
@@ -74,7 +76,7 @@ export default function BottomTabs() {
               theme === 'light' ? colors.light.primary : colors.dark.primary,
             borderRadius: 10,
             height: 50,
-            zIndex: 300
+            zIndex: 300,
           },
           tabBarShowLabel: false,
           headerShown: false,
@@ -123,6 +125,7 @@ export default function BottomTabs() {
           name="Add"
           component={Add}
           options={{
+            // tabBarStyle: {display:'none'},
             tabBarButton: ({focused}) => (
               <TouchableNativeFeedback
                 onPress={() => dispatch(openBottomSheet())}>
