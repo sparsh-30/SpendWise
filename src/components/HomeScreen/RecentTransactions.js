@@ -1,23 +1,22 @@
 import {View, Text, TouchableNativeFeedback} from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import MyText from '../../MyText';
 import colors from '../../colors';
-import {useSelector,useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/Entypo';
 import Transaction from './Transaction';
-// import Transaction from './../Transaction';
-import DummyTransactionsArray from '../../DummyTrasactionsData';
 
 export default function RecentTransactions() {
   const theme = useSelector(state => state.theme.theme);
   const navigation = useNavigation();
 
-  // const transactionsArray = DummyTransactionsArray;
-  const transactionsArray=useSelector((state)=> state.transactions.transactions)
+  const transactionsArray = useSelector(
+    state => state.transactions.transactions,
+  );
 
   return (
-    <View className="w-11/12 mx-auto">
-      <View className="flex flex-row justify-between mb-2">
+    <View>
+      <View className="mb-2 w-11/12 mx-auto">
         <MyText>Recent Transactions</MyText>
       </View>
       <View>
@@ -46,7 +45,8 @@ export default function RecentTransactions() {
           })
         )}
       </View>
-      <TouchableNativeFeedback onPress={()=> navigation.navigate("TransactionsScreen")}>
+      <TouchableNativeFeedback
+        onPress={() => navigation.navigate('TransactionsScreen')}>
         <View
           className="w-2/5 py-2 mt-2 mb-3 rounded-md mx-auto flex flex-row justify-center items-center"
           style={{
@@ -62,5 +62,6 @@ export default function RecentTransactions() {
   );
 }
 
-
-{/* <Text style={{backgroundColor: theme === 'light' ? colors.light.primary : colors.dark.primary,}} className="text-lg py-2 w-5/6 mx-auto mt-5 text-white text-center font-[800] rounded-xl">No transactions to show</Text> */}
+{
+  /* <Text style={{backgroundColor: theme === 'light' ? colors.light.primary : colors.dark.primary,}} className="text-lg py-2 w-5/6 mx-auto mt-5 text-white text-center font-[800] rounded-xl">No transactions to show</Text> */
+}

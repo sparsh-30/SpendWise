@@ -1,12 +1,11 @@
 import {View, Text, Image} from 'react-native';
-import MyText from './../../MyText';
 import colors from './../../colors';
 import {useSelector} from 'react-redux';
 import {getObjectFromCategoryName} from './../../categoryLinks';
 
-const Transaction = props => {
+const Category = props => {
   const theme = useSelector(state => state.theme.theme);
-  const categoryObject = getObjectFromCategoryName(props.category);
+  const categoryObject = getObjectFromCategoryName(props.text);
   return (
     <View>
       <View
@@ -37,9 +36,9 @@ const Transaction = props => {
                     ? colors.light.primary
                     : colors.dark.primary,
               }}>
-              {props.title}
+              {props.text}
             </Text>
-            <MyText>{props.time}</MyText>
+            {/* <MyText>{props.time}</MyText> */}
           </View>
           <Text
             className="font-bold"
@@ -53,4 +52,4 @@ const Transaction = props => {
   );
 };
 
-export default Transaction;
+export default Category;

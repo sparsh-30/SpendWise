@@ -157,8 +157,8 @@ const BezierGraph = ({pastTransactionsData, tabIndex}) => {
   const screenWidth = Dimensions.get('window').width;
 
   const data = {
-    labels: ['21 Dec','22 Dec','23 Dec','24 Dec','25 Dec','26 Dec','Today'],
-    // labels: pastTransactionsData.past7DaysLabels,
+    // labels: ['21 Dec','22 Dec','23 Dec','24 Dec','25 Dec','26 Dec','Today'],
+    labels: pastTransactionsData.past7DaysLabels,
     datasets: [
       {
         data:

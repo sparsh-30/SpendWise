@@ -1,12 +1,10 @@
-import {View, Text, Image, TouchableWithoutFeedback} from 'react-native';
+import {View, Text, TouchableWithoutFeedback} from 'react-native';
 import {useState, useEffect} from 'react';
-import {PieChart} from 'react-native-gifted-charts';
 import {useSelector} from 'react-redux';
 import colors from '../../colors';
-import {
-  getAllCategoryArray,
-  getObjectFromCategoryName,
-} from '../../categoryLinks';
+import {getAllCategoryArray} from '../../categoryLinks';
+import DonutChart from './DonutChart';
+import Category from './Category';
 
 export default function CategoryAnalysis() {
   const theme = useSelector(state => state.theme.theme);
@@ -173,49 +171,14 @@ export default function CategoryAnalysis() {
           </View>
         </TouchableWithoutFeedback>
       </View>
-      <DonutChart data={data} theme={theme} />
-      <View className="h-40 w-full"></View>
+      <DonutChart data={data} />
+      <View className="">
+        {
+          data.map((d,index)=>{
+            if(d.value!==0) return <Category key={index} expense={d.expense} text={d.text} value={d.value} />
+          })
+        }
+      </View>
     </View>
   );
 }
-
-const DonutChart = ({data, theme}) => {
-  const [selectedAreaTitle, setSelectedAreaTitle] = useState('');
-  const categoryObject = getObjectFromCategoryName(selectedAreaTitle);
-  return (
-    <PieChart
-      textColor="black"
-      radius={150}
-      textSize={20}
-      donut
-      onPress={item => setSelectedAreaTitle(item.text)}
-      focusOnPress
-      showTextBackground
-      textBackgroundRadius={26}
-      data={data}
-      innerCircleColor={
-        theme === 'light' ? colors.light.background : colors.dark.background
-      }
-      centerLabelComponent={() => {
-        return selectedAreaTitle === '' ? (
-          <View></View>
-        ) : (
-          <View style={{justifyContent: 'center', alignItems: 'center'}}>
-            <Image className="h-11 w-11" source={categoryObject.categoryLink} />
-            <Text
-              style={{
-                fontSize: 14,
-                fontWeight: 800,
-                color:
-                  theme === 'light'
-                    ? colors.light.primary
-                    : colors.dark.primary,
-              }}>
-              {selectedAreaTitle}
-            </Text>
-          </View>
-        );
-      }}
-    />
-  );
-};

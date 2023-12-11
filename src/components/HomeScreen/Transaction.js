@@ -10,7 +10,7 @@ const RTCard = props => {
   return (
     <TouchableNativeFeedback>
       <View
-        className="my-2 px-3 py-3 flex flex-row items-center rounded-lg"
+        className="w-11/12 mx-auto my-2 px-3 py-3 flex flex-row items-center rounded-lg"
         style={{
           zIndex:100,
           shadowColor:
