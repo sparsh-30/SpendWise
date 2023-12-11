@@ -28,38 +28,56 @@ const incomeCategoryList = new Map();
 incomeCategoryList.set('Dividend', {
   categoryTitle: 'Dividend',
   categoryLink: dividend,
+  color: '#1f77b4',
+  expense: false,
 });
 incomeCategoryList.set('Interest', {
   categoryTitle: 'Interest',
   categoryLink: interest,
+  color: '#ff7f0e',
+  expense: false,
 });
 incomeCategoryList.set('Investment', {
   categoryTitle: 'Investment',
   categoryLink: investment,
+  color: '#2ca02c',
+  expense: false,
 });
 incomeCategoryList.set('Lend', {
   categoryTitle: 'Lend',
   categoryLink: lend,
+  color: '#d62728',
+  expense: false,
 });
 incomeCategoryList.set('Pension', {
   categoryTitle: 'Pension',
   categoryLink: pension,
+  color: '#9467bd',
+  expense: false,
 });
 incomeCategoryList.set('Profit', {
   categoryTitle: 'Profit',
   categoryLink: profit,
+  color: '#8c564b',
+  expense: false,
 });
 incomeCategoryList.set('Real Estate', {
   categoryTitle: 'Real Estate',
   categoryLink: real_estate,
+  color: '#e377c2',
+  expense: false,
 });
 incomeCategoryList.set('Salary', {
   categoryTitle: 'Salary',
+  color: '#7f7f7f',
   categoryLink: salary,
+  expense: false,
 });
 incomeCategoryList.set('Trade', {
   categoryTitle: 'Trade',
   categoryLink: trade,
+  color: '#bcbd22',
+  expense: false,
 });
 
 // Expense Categories Hash Map
@@ -68,46 +86,68 @@ const expenseCategoryList = new Map();
 expenseCategoryList.set('Education', {
   categoryTitle: 'Education',
   categoryLink: education,
+  color: '#17becf',
+  expense: true,
 });
 expenseCategoryList.set('Entertainment', {
   categoryTitle: 'Entertainment',
   categoryLink: entertainment,
+  color: '#aec7e8',
+  expense: true,
 });
 expenseCategoryList.set('Groceries', {
   categoryTitle: 'Groceries',
   categoryLink: groceries,
+  color: '#ffbb78',
+  expense: true,
 });
 expenseCategoryList.set('Healthcare', {
   categoryTitle: 'Healthcare',
   categoryLink: healthcare,
+  color: '#98df8a',
+  expense: true,
 });
 expenseCategoryList.set('House Rent', {
   categoryTitle: 'House Rent',
   categoryLink: house_rent,
+  color: '#ff9896',
+  expense: true,
 });
 expenseCategoryList.set('Insurance', {
   categoryTitle: 'Insurance',
   categoryLink: insurance,
+  color: '#c5b0d5',
+  expense: true,
 });
 expenseCategoryList.set('Loan', {
   categoryTitle: 'Loan',
   categoryLink: loan,
+  color: '#c49c94',
+  expense: true,
 });
 expenseCategoryList.set('Maintenance', {
   categoryTitle: 'Maintenance',
   categoryLink: maintenance,
+  color: '#f7b6d2',
+  expense: true,
 });
 expenseCategoryList.set('Others', {
   categoryTitle: 'Others',
   categoryLink: others,
+  color: '#c7c7c7',
+  expense: true,
 });
 expenseCategoryList.set('Savings', {
   categoryTitle: 'Savings',
   categoryLink: savings,
+  color: '#dbdb8d',
+  expense: true,
 });
 expenseCategoryList.set('Transportation', {
   categoryTitle: 'Transportation',
   categoryLink: transportation,
+  color: '#9edae5',
+  expense: true,
 });
 
 // All Categories Hash Map
@@ -115,7 +155,6 @@ const allCategoryList = new Map([
   ...incomeCategoryList,
   ...expenseCategoryList,
 ]);
-
 
 // Functions Related to Category Queries
 
@@ -134,13 +173,13 @@ const getExpenseCategoryArray = () => {
 // Function to get all category objects in form of an array
 const getAllCategoryArray = () => {
   const res = [...allCategoryList.values()];
-  res.sort((a,b)=>{
-    let c1=a.categoryTitle;
-    let c2=b.categoryTitle;
-    if(c1>c2) return 1;
-    else if(c1<c2) return -1;
+  res.sort((a, b) => {
+    let c1 = a.categoryTitle;
+    let c2 = b.categoryTitle;
+    if (c1 > c2) return 1;
+    else if (c1 < c2) return -1;
     return 0;
-  })
+  });
   return res;
 };
 
