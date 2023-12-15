@@ -9,11 +9,14 @@ export default function TransactionsScreen() {
   const theme = useSelector(state => state.theme.theme);
   return (
     <View
-      style={{backgroundColor: theme === 'light' ? colors.light.background : colors.dark.background}} className="bg-white dark:bg-[#302D43] flex flex-1">
+      style={{
+        backgroundColor:
+          theme === 'light' ? colors.light.background : colors.dark.background,
+      }}
+      className="bg-white dark:bg-[#302D43] flex flex-1">
       <Header />
       <Dropdowns />
       <TransactionsContainer />
-      {/* <View className="h-20"></View> */}
     </View>
   );
 }

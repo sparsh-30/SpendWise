@@ -5,6 +5,7 @@ import colors from '../../colors';
 import {getAllCategoryArray} from '../../categoryLinks';
 import DonutChart from './DonutChart';
 import Category from './Category';
+import NoTransactionsDisplay from '../../NoTransactionsDisplay';
 
 export default function CategoryAnalysis() {
   const theme = useSelector(state => state.theme.theme);
@@ -66,6 +67,14 @@ export default function CategoryAnalysis() {
     if (tabIndex === 0) setData(tempIncomeCategoriesArray);
     else if (tabIndex === 1) setData(pieChartData);
     else setData(tempExpenseCategoriesArray);
+  };
+
+  const dataPresent = () => {
+    const tempData = [...data];
+    for (let i = 0; i < tempData.length; i++) {
+      if (tempData[i].value !== 0) return true;
+    }
+    return false;
   };
 
   useEffect(() => {
@@ -171,14 +180,26 @@ export default function CategoryAnalysis() {
           </View>
         </TouchableWithoutFeedback>
       </View>
-      <DonutChart data={data} />
-      <View className="">
-        {
-          data.map((d,index)=>{
-            if(d.value!==0) return <Category key={index} expense={d.expense} text={d.text} value={d.value} />
-          })
-        }
-      </View>
+      {!dataPresent() ? (
+        <NoTransactionsDisplay />
+      ) : (
+        <View>
+          <DonutChart data={data} />
+          <View className="">
+            {data.map((d, index) => {
+              if (d.value !== 0)
+                return (
+                  <Category
+                    key={index}
+                    expense={d.expense}
+                    text={d.text}
+                    value={d.value}
+                  />
+                );
+            })}
+          </View>
+        </View>
+      )}
     </View>
   );
 }

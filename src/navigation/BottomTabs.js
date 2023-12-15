@@ -1,7 +1,7 @@
 import {NavigationContainer} from '@react-navigation/native';
 import {useRef,useEffect} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {View, Platform, StatusBar, TouchableNativeFeedback, Appearance} from 'react-native';
+import {View, Platform, StatusBar, TouchableNativeFeedback, Appearance, Button} from 'react-native';
 import Home from 'react-native-vector-icons/Entypo';
 import Icon from 'react-native-vector-icons/AntDesign';
 import Icon2 from 'react-native-vector-icons/FontAwesome6';

@@ -2,6 +2,7 @@ import {View, Text, TouchableNativeFeedback} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import MyText from '../../MyText';
 import colors from '../../colors';
+import NoTransactionsDisplay from '../../NoTransactionsDisplay';
 import {useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/Entypo';
 import Transaction from './Transaction';
@@ -21,14 +22,7 @@ export default function RecentTransactions() {
       </View>
       <View>
         {transactionsArray.length === 0 ? (
-          <Text
-            style={{
-              backgroundColor:
-                theme === 'light' ? colors.light.primary : colors.dark.primary,
-            }}
-            className="text-lg py-1 w-5/6 mx-auto mt-5 text-white text-center font-[800] rounded-full">
-            No transactions to show
-          </Text>
+          <NoTransactionsDisplay />
         ) : (
           transactionsArray.map((category, index) => {
             if (index < 7)
