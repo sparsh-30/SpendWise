@@ -9,10 +9,11 @@ export default function DeleteTransactions() {
     <TouchableNativeFeedback>
       <View
         style={{
+          backgroundColor: theme === 'light' ? '#ef5350' : '#d32f2f',
           shadowColor:
             theme === 'light' ? colors.light.shadow : colors.dark.shadow,
         }}
-        className="w-5/6 mx-auto my-4 p-3 rounded-lg bg-[#ef5350] shadow-lg">
+        className="w-5/6 mx-auto my-4 p-3 rounded-lg bg-[#d32f2f] shadow-lg">
         <Text className="text-lg font-extrabold text-white text-center">
           DELETE ALL TRANSACTIONS
         </Text>

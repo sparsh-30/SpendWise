@@ -1,19 +1,36 @@
 import {View, Text, TextInput, TouchableNativeFeedback} from 'react-native';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import Check from 'react-native-vector-icons/FontAwesome';
 import Edit from 'react-native-vector-icons/Entypo';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
+import {saveUserName} from '../../store/userSlice';
 import colors from '../../colors';
 
 export default function UserName() {
   const theme = useSelector(state => state.theme.theme);
+  const userName = useSelector(state => state.user.userName);
+  const dispatch = useDispatch();
   const [editMode, setEditMode] = useState(false);
-  const [userName, setUserName] = useState('Sparsh Gupta');
+  const [userInput, setUserInput] = useState('');
   const alphabetRegex = /^[a-zA-Z ]*$/;
 
   const submitUserName = () => {
+    if (
+      alphabetRegex.test(userInput) &&
+      userInput.length >= 4 &&
+      userInput.length <= 32
+    ) {
+      dispatch(saveUserName(userInput));
+    } else {
+      dispatch(saveUserName(userName));
+      setUserInput(userName);
+    }
     setEditMode(false);
   };
+
+  useEffect(() => {
+    setUserInput(userName);
+  }, []);
 
   return (
     <View className="w-4/5 h-28 mx-auto">
@@ -22,8 +39,8 @@ export default function UserName() {
           onEndEditing={submitUserName}
           returnKeyType="done"
           readOnly={editMode ? false : true}
-          value={userName}
-          onChangeText={newText => setUserName(newText)}
+          value={userInput}
+          onChangeText={newText => setUserInput(newText)}
           style={{
             textAlign: editMode ? 'left' : 'center',
             fontSize: editMode ? 18 : 28,
@@ -48,7 +65,7 @@ export default function UserName() {
         />
         <TouchableNativeFeedback onPress={() => setEditMode(true)}>
           <View
-            style={{opacity: editMode ? 0 : 1}}
+            style={{display: editMode ? 'none' : 'flex'}}
             className="absolute -right-2 p-2 bg-[#2e7d3240] rounded-full">
             <Edit name="edit" size={20} color="#2e7d32" />
           </View>
@@ -56,13 +73,13 @@ export default function UserName() {
         <TouchableNativeFeedback onPress={submitUserName}>
           <View
             style={{
-              opacity:
+              display:
                 editMode &&
-                alphabetRegex.test(userName) &&
-                userName.length >= 4 &&
-                userName.length <= 32
-                  ? 1
-                  : 0,
+                alphabetRegex.test(userInput) &&
+                userInput.length >= 4 &&
+                userInput.length <= 32
+                  ? 'flex'
+                  : 'none',
             }}
             className="absolute right-3">
             <Check name="check" size={20} color="#2e7d32" />
@@ -73,16 +90,16 @@ export default function UserName() {
         <ValidationLabel
           title="Only Alphabets: 4-16"
           success={
-            alphabetRegex.test(userName) &&
-            userName.length >= 4 &&
-            userName.length <= 16
+            alphabetRegex.test(userInput) &&
+            userInput.length >= 4 &&
+            userInput.length <= 16
               ? true
               : false
           }
         />
         <ValidationLabel
           title="Required"
-          success={userName !== '' ? true : false}
+          success={userInput !== '' ? true : false}
         />
       </View>
     </View>

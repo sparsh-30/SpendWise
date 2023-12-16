@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const saveTransactionData = createAsyncThunk(
   'saveTransactionData/saveData',
-  async (transactionsData, thunkAPI) => {
+  async (transactionsData) => {
     const transactionsDataJSON=JSON.stringify(transactionsData);
     await AsyncStorage.setItem('transactions-data', transactionsDataJSON);
     return transactionsData;

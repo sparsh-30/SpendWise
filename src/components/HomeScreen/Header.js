@@ -4,11 +4,12 @@ import avatar_image from './../../../assets/avatar.jpg';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useSelector} from 'react-redux';
 import {useDispatch} from 'react-redux';
-import { toggleMode } from '../../store/themeSlice';
+import {toggleMode} from '../../store/themeSlice';
 import colors from '../../colors';
 
 export default function Header() {
   const theme = useSelector(state => state.theme.theme);
+  const userName = useSelector(state => state.user.userName);
   const dispatch = useDispatch();
 
   const toggleSwitch = () => {
@@ -31,7 +32,7 @@ export default function Header() {
                 theme === 'light' ? colors.light.primary : colors.dark.primary,
             }}
             className="text-2xl font-bold">
-            Aiden Pearce
+            {userName}
           </Text>
         </View>
       </View>

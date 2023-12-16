@@ -14,6 +14,7 @@ import ProfileScreen from '../screens/ProfileScreen';
 import colors from '../colors';
 import {useSelector,useDispatch} from 'react-redux';
 import { initialiseData } from '../store/TransactionsSlice';
+import { setUserName } from '../store/userSlice';
 import { openBottomSheet } from '../store/bottomSheetSlice';
 import { toggleMode } from '../store/themeSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -43,6 +44,9 @@ export default function BottomTabs() {
         const temp=JSON.parse(value);
         dispatch(initialiseData(temp));
       }
+
+      const userName=await AsyncStorage.getItem('user-name');
+      dispatch(setUserName(userName));
     } catch (e) {
       console.log(e);
     }
