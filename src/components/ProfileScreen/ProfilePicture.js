@@ -1,11 +1,15 @@
 import {View, Image, TouchableNativeFeedback} from 'react-native';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import PlaceholderImage from './../../../assets/placeholder.png';
 import Edit from 'react-native-vector-icons/Entypo';
 import Delete from 'react-native-vector-icons/MaterialCommunityIcons';
 import {launchImageLibrary} from 'react-native-image-picker';
+import {useDispatch, useSelector} from 'react-redux';
+import {saverUserImage} from '../../store/userSlice';
 
 export default function ProfilePicture() {
+  const userImage = useSelector(state => state.user.userImage);
+  const dispatch = useDispatch();
   const [imageUri, setImageUri] = useState('');
 
   const handleChangePicture = async () => {
@@ -21,13 +25,20 @@ export default function ProfilePicture() {
     } else if (response.error) {
       console.log('Image picker error: ', response.error);
     } else {
-      setImageUri(response.assets[0].uri);
+      const uri = response.assets[0].uri;
+      dispatch(saverUserImage(uri));
+      setImageUri(uri);
     }
   };
 
   const handleDeletePicture = () => {
+    dispatch(saverUserImage(''));
     setImageUri('');
   };
+
+  useEffect(() => {
+    setImageUri(userImage);
+  }, []);
 
   return (
     <View className="my-4 flex flex-row justify-center items-center">
@@ -38,7 +49,6 @@ export default function ProfilePicture() {
       </TouchableNativeFeedback>
       <Image
         className="w-44 h-44 rounded-full"
-        resizeMode="contain"
         source={imageUri === '' ? PlaceholderImage : {uri: imageUri}}
       />
       <TouchableNativeFeedback onPress={handleDeletePicture}>

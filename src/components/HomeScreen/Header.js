@@ -1,6 +1,6 @@
 import {View, Text, Image, TouchableNativeFeedback} from 'react-native';
 import MyText from '../../MyText';
-import avatar_image from './../../../assets/avatar.jpg';
+import PlaceholderImage from './../../../assets/placeholder.png';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {useSelector} from 'react-redux';
 import {useDispatch} from 'react-redux';
@@ -9,6 +9,7 @@ import colors from '../../colors';
 
 export default function Header() {
   const theme = useSelector(state => state.theme.theme);
+  const userImage = useSelector(state => state.user.userImage);
   const userName = useSelector(state => state.user.userName);
   const dispatch = useDispatch();
 
@@ -22,7 +23,7 @@ export default function Header() {
       <View className="pb-5 pt-3 px-2 flex flex-row items-center">
         <Image
           className="w-[70px] h-[70px] rounded-full"
-          source={avatar_image}
+          source={userImage === '' ? PlaceholderImage : {uri: userImage}}
         />
         <View className="ml-2">
           <MyText>Hello,</MyText>

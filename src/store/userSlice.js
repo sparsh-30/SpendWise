@@ -1,25 +1,26 @@
 import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// const saveTransactionData = createAsyncThunk(
-//   'saveTransactionData/saveData',
-//   async (transactionsData) => {
-//     const transactionsDataJSON=JSON.stringify(transactionsData);
-//     await AsyncStorage.setItem('transactions-data', transactionsDataJSON);
-//     return transactionsData;
-//   },
-// );
-const saveUserName = createAsyncThunk('saveUser', async name => {
+const saveUserName = createAsyncThunk('saveUserName', async name => {
   await AsyncStorage.setItem('user-name', name);
   return name;
+});
+
+const saverUserImage = createAsyncThunk('saveUserImage', async imageUri => {
+  await AsyncStorage.setItem('user-image', imageUri);
+  return imageUri;
 });
 
 const userSlice = createSlice({
   name: 'user',
   initialState: {
+    userImage: '',
     userName: '',
   },
   reducers: {
+    setUserImage: (state, action) => {
+      state.userImage = action.payload;
+    },
     setUserName: (state, action) => {
       state.userName = action.payload;
     },
@@ -28,9 +29,12 @@ const userSlice = createSlice({
     builder.addCase(saveUserName.fulfilled, (state, action) => {
       state.userName = action.payload;
     });
+    builder.addCase(saverUserImage.fulfilled, (state, action) => {
+      state.userImage = action.payload;
+    });
   },
 });
 
 export default userSlice.reducer;
-export const {setUserName} = userSlice.actions;
-export {saveUserName};
+export const {setUserImage, setUserName} = userSlice.actions;
+export {saveUserName, saverUserImage};

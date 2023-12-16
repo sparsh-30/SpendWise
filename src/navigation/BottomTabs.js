@@ -1,7 +1,14 @@
 import {NavigationContainer} from '@react-navigation/native';
-import {useRef,useEffect} from 'react';
+import {useRef, useEffect} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {View, Platform, StatusBar, TouchableNativeFeedback, Appearance, Button} from 'react-native';
+import {
+  View,
+  Platform,
+  StatusBar,
+  TouchableNativeFeedback,
+  Appearance,
+  Button,
+} from 'react-native';
 import Home from 'react-native-vector-icons/Entypo';
 import Icon from 'react-native-vector-icons/AntDesign';
 import Icon2 from 'react-native-vector-icons/FontAwesome6';
@@ -12,49 +19,51 @@ import Add from '../screens/Add';
 import AnalyticsScreen from '../screens/AnalyticsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import colors from '../colors';
-import {useSelector,useDispatch} from 'react-redux';
-import { initialiseData } from '../store/TransactionsSlice';
-import { setUserName } from '../store/userSlice';
-import { openBottomSheet } from '../store/bottomSheetSlice';
-import { toggleMode } from '../store/themeSlice';
+import {useSelector, useDispatch} from 'react-redux';
+import {initialiseData} from '../store/TransactionsSlice';
+import {setUserName, setUserImage} from '../store/userSlice';
+import {openBottomSheet} from '../store/bottomSheetSlice';
+import {toggleMode} from '../store/themeSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Tab = createBottomTabNavigator();
 
 export default function BottomTabs() {
   const theme = useSelector(state => state.theme.theme);
-  const currentState=useSelector(state => state.bottomSheet.currentState);
-  const dispatch=useDispatch();
+  const currentState = useSelector(state => state.bottomSheet.currentState);
+  const dispatch = useDispatch();
 
   const bottomSheetRef = useRef(null);
 
   const onAppInitialization = async () => {
     try {
       const theme = await AsyncStorage.getItem('theme');
-      if(theme===null){
-        const systemTheme=Appearance.getColorScheme();
+      if (theme === null) {
+        const systemTheme = Appearance.getColorScheme();
         dispatch(toggleMode(systemTheme));
-      }
-      else{
+      } else {
         dispatch(toggleMode(theme));
       }
 
       const value = await AsyncStorage.getItem('transactions-data');
       if (value !== null) {
-        const temp=JSON.parse(value);
+        const temp = JSON.parse(value);
         dispatch(initialiseData(temp));
       }
 
-      const userName=await AsyncStorage.getItem('user-name');
+      const userName = await AsyncStorage.getItem('user-name');
       dispatch(setUserName(userName));
+
+      const userImage = await AsyncStorage.getItem('user-image');
+      dispatch(setUserImage(userImage));
     } catch (e) {
       console.log(e);
     }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     onAppInitialization();
-  },[])
+  }, []);
 
   return (
     <NavigationContainer>
@@ -69,7 +78,7 @@ export default function BottomTabs() {
         screenOptions={() => ({
           tabBarHideOnKeyboard: true,
           tabBarStyle: {
-            display: currentState==='close'?'flex':'none',
+            display: currentState === 'close' ? 'flex' : 'none',
             // display: 'flex',
             position: 'absolute',
             bottom: 10,
