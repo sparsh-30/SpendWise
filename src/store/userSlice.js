@@ -15,7 +15,7 @@ const userSlice = createSlice({
   name: 'user',
   initialState: {
     userImage: '',
-    userName: '',
+    userName: 'John Doe',
   },
   reducers: {
     setUserImage: (state, action) => {

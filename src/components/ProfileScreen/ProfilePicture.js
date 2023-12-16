@@ -49,7 +49,11 @@ export default function ProfilePicture() {
       </TouchableNativeFeedback>
       <Image
         className="w-44 h-44 rounded-full"
-        source={imageUri === '' ? PlaceholderImage : {uri: imageUri}}
+        source={
+          imageUri === null || imageUri === ''
+            ? PlaceholderImage
+            : {uri: imageUri}
+        }
       />
       <TouchableNativeFeedback onPress={handleDeletePicture}>
         <View className="p-2 ml-4 bg-[#d32f2f40] rounded-full">

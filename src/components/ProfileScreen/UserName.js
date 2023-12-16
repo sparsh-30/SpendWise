@@ -29,6 +29,10 @@ export default function UserName() {
   };
 
   useEffect(() => {
+    if (userName === null) {
+      setUserInput('John Doe');
+      return;
+    }
     setUserInput(userName);
   }, []);
 

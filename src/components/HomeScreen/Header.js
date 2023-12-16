@@ -23,7 +23,11 @@ export default function Header() {
       <View className="pb-5 pt-3 px-2 flex flex-row items-center">
         <Image
           className="w-[70px] h-[70px] rounded-full"
-          source={userImage === '' ? PlaceholderImage : {uri: userImage}}
+          source={
+            userImage === null || userImage === ''
+              ? PlaceholderImage
+              : {uri: userImage}
+          }
         />
         <View className="ml-2">
           <MyText>Hello,</MyText>
