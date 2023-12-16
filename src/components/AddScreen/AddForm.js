@@ -170,7 +170,7 @@ export default function AddForm() {
                         ? colors.light.primary
                         : colors.dark.primary,
                   }}
-                  className="h-12 px-4 text-white font-extrabold mt-1 rounded-md border-2"
+                  className="h-12 px-4 text-white font-extrabold mt-1 rounded-md border-4"
                   placeholder="Transaction Title"
                   placeholderTextColor={
                     theme === 'light' ? colors.light.text : colors.dark.text
@@ -212,7 +212,7 @@ export default function AddForm() {
                             ? colors.light.primary
                             : colors.dark.primary,
                       }}
-                      className="h-12 px-4 w-[90%] text-white font-extrabold rounded-md border-2"
+                      className="h-12 px-4 w-[90%] text-white font-extrabold rounded-md border-4"
                       placeholder="Amount"
                       placeholderTextColor={
                         theme === 'light' ? colors.light.text : colors.dark.text
@@ -266,7 +266,7 @@ export default function AddForm() {
                         ? colors.light.primary
                         : colors.dark.primary,
                   }}
-                  className="h-12 px-4 mb-2 text-white font-extrabold mt-1 rounded-md border-2"
+                  className="h-12 px-4 mb-2 text-white font-extrabold mt-1 rounded-md border-4"
                   placeholder={placeholder}
                   placeholderTextColor={
                     theme === 'light' ? colors.light.text : colors.dark.text
@@ -527,7 +527,7 @@ const CategoriesDropdown = ({selectedTransactionType, getSelectedCategory}) => {
           theme === 'light' ? colors.light.background : colors.dark.background,
         borderColor:
           theme === 'light' ? colors.light.primary : colors.dark.primary,
-        borderWidth: 2,
+        borderWidth: 4,
       }}
       ArrowUpIconComponent={() => (
         <Icon
