@@ -1,4 +1,4 @@
-import {ScrollView} from 'react-native';
+import {View,ScrollView} from 'react-native';
 import ProfilePicture from './../components/ProfileScreen/ProfilePicture';
 import UserName from '../components/ProfileScreen/UserName';
 import DarkMode from '../components/ProfileScreen/DarkMode';
@@ -19,6 +19,7 @@ export default function ProfileScreen() {
       <UserName />
       <DarkMode />
       <DeleteTransactions />
+      <View className="w-full h-20"></View>
     </ScrollView>
   );
 }

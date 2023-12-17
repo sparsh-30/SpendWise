@@ -184,7 +184,9 @@ export default function CategoryAnalysis() {
         <NoTransactionsDisplay />
       ) : (
         <View>
-          <DonutChart data={data} />
+          <View className="mx-auto">
+            <DonutChart data={data} />
+          </View>
           <View className="">
             {data.map((d, index) => {
               if (d.value !== 0)

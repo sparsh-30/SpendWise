@@ -1,4 +1,4 @@
-import {View, Image, StatusBar} from 'react-native';
+import {View, Image, StatusBar, Appearance} from 'react-native';
 import {useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch, useSelector} from 'react-redux';
