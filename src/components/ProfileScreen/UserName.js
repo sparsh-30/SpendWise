@@ -18,7 +18,7 @@ export default function UserName() {
     if (
       alphabetRegex.test(userInput) &&
       userInput.length >= 4 &&
-      userInput.length <= 32
+      userInput.length <= 16
     ) {
       dispatch(saveUserName(userInput));
     } else {
@@ -81,7 +81,7 @@ export default function UserName() {
                 editMode &&
                 alphabetRegex.test(userInput) &&
                 userInput.length >= 4 &&
-                userInput.length <= 32
+                userInput.length <= 16
                   ? 'flex'
                   : 'none',
             }}
