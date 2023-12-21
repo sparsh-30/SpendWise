@@ -7,7 +7,6 @@ import {
   StatusBar,
   TouchableNativeFeedback,
   Appearance,
-  Button,
 } from 'react-native';
 import Home from 'react-native-vector-icons/Entypo';
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -18,6 +17,7 @@ import TransactionsScreen from '../screens/TransactionsScreen';
 import Add from '../screens/Add';
 import AnalyticsScreen from '../screens/AnalyticsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import ConfirmationModal from '../components/ProfileScreen/ConfirmationModal';
 import colors from '../colors';
 import {useSelector, useDispatch} from 'react-redux';
 import {initialiseData} from '../store/TransactionsSlice';
@@ -31,6 +31,7 @@ const Tab = createBottomTabNavigator();
 export default function BottomTabs({setHideSplashScreen}) {
   const theme = useSelector(state => state.theme.theme);
   const currentState = useSelector(state => state.bottomSheet.currentState);
+  const modalState = useSelector(state => state.modal.showModal);
   const dispatch = useDispatch();
 
   const bottomSheetRef = useRef(null);
@@ -79,8 +80,10 @@ export default function BottomTabs({setHideSplashScreen}) {
         screenOptions={() => ({
           tabBarHideOnKeyboard: true,
           tabBarStyle: {
-            display: currentState === 'close' ? 'flex' : 'none',
-            // display: 'flex',
+            display:
+              currentState === 'close' && modalState === 'close'
+                ? 'flex'
+                : 'none',
             position: 'absolute',
             bottom: 10,
             left: 20,
@@ -101,11 +104,12 @@ export default function BottomTabs({setHideSplashScreen}) {
           options={{
             tabBarIcon: ({focused}) => (
               <View
-                style={
-                  {
-                    // top: Platform.OS === 'ios' ? 10 : 0,
-                  }
-                }>
+                style={{
+                  width: 40,
+                  display: 'flex',
+                  alignItems: 'center',
+                  // top: Platform.OS === 'ios' ? 10 : 0,
+                }}>
                 <Home
                   name="home"
                   size={30}
@@ -121,11 +125,12 @@ export default function BottomTabs({setHideSplashScreen}) {
           options={{
             tabBarIcon: ({focused}) => (
               <View
-                style={
-                  {
-                    // top: Platform.OS === 'ios' ? 10 : 0,
-                  }
-                }>
+                style={{
+                  width: 40,
+                  display: 'flex',
+                  alignItems: 'center',
+                  // top: Platform.OS === 'ios' ? 10 : 0,
+                }}>
                 <Icon2
                   name="money-bill-transfer"
                   size={28}
@@ -173,11 +178,12 @@ export default function BottomTabs({setHideSplashScreen}) {
           options={{
             tabBarIcon: ({focused}) => (
               <View
-                style={
-                  {
-                    // top: Platform.OS === 'ios' ? 10 : 0,
-                  }
-                }>
+                style={{
+                  width: 40,
+                  display: 'flex',
+                  alignItems: 'center',
+                  // top: Platform.OS === 'ios' ? 10 : 0,
+                }}>
                 <Graph
                   name="graph"
                   size={30}
@@ -193,11 +199,12 @@ export default function BottomTabs({setHideSplashScreen}) {
           options={{
             tabBarIcon: ({focused}) => (
               <View
-                style={
-                  {
-                    // top: Platform.OS === 'ios' ? 10 : 0,
-                  }
-                }>
+                style={{
+                  width: 40,
+                  display: 'flex',
+                  alignItems: 'center',
+                  // top: Platform.OS === 'ios' ? 10 : 0,
+                }}>
                 <Icon2
                   name="circle-user"
                   size={30}
@@ -209,6 +216,7 @@ export default function BottomTabs({setHideSplashScreen}) {
         />
       </Tab.Navigator>
       <Add bottomSheetRef={bottomSheetRef} />
+      <ConfirmationModal />
     </NavigationContainer>
   );
 }

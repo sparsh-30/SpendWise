@@ -1,7 +1,6 @@
 import {ScrollView, View} from 'react-native';
 import Header from '../components/AnalyticsScreen/Header';
 import PastTransactions from '../components/AnalyticsScreen/PastTransactions';
-import Demo from '../components/AnalyticsScreen/Demo';
 import CategoryAnalysis from '../components/AnalyticsScreen/CategoryAnalysis';
 import NoTransactionsDisplay from '../NoTransactionsDisplay';
 import {useSelector} from 'react-redux';
@@ -18,12 +17,11 @@ export default function AnalyticsScreen() {
       }}
       className="bg-white dark:bg-[#302D43] flex flex-1">
       <Header />
-      {/* <PastTransactions /> */}
       {transactions.length === 0 ? (
         <NoTransactionsDisplay />
       ) : (
         <View>
-          <Demo />
+          <PastTransactions />
           <CategoryAnalysis />
           <View className="w-full h-20"></View>
         </View>

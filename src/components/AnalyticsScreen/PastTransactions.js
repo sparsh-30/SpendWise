@@ -1,48 +1,47 @@
-import {View, Text, TouchableNativeFeedback, Dimensions} from 'react-native';
+import {View} from 'react-native';
 import {useState, useEffect} from 'react';
 import moment from 'moment';
-import {LineChart} from 'react-native-chart-kit';
 import {useSelector} from 'react-redux';
-import colors from '../../colors';
+import BarGraph from './BarGraph';
 
 export default function PastTransactions() {
-  const theme = useSelector(state => state.theme.theme);
   const transactions = useSelector(state => state.transactions.transactions);
-  const [tabIndex, setTabIndex] = useState(0);
   const [pastTransactionsData, setPastTransactionsData] = useState({
-    past7DaysLabels: [],
+    pastDaysLabels: [],
     totalExpenseArray: [],
     totalIncomeArray: [],
   });
+  const numberofDays = 7;
 
-  const updatePast7DaysTransactions = () => {
+  const updatePastDaysTransactions = () => {
     const transactionArray = [...transactions];
     const currentDate = moment();
     const categorizedDates = {};
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < numberofDays; i++) {
       const dateKey = currentDate.clone().subtract(i, 'days').format('D MMM');
       categorizedDates[dateKey] = [];
     }
 
-    transactionArray.forEach(transaction => {
+    for (let i = 0; i < transactionArray.length; i++) {
+      const transaction = transactionArray[i];
       const momentDate = moment(transaction.date, 'DD/MM/YYYY, h:mm a');
       const daysDifference = currentDate.diff(momentDate, 'days');
-      if (daysDifference < 6) {
+      if (daysDifference < numberofDays) {
         const dayKey = momentDate.format('D MMM');
         if (!categorizedDates[dayKey]) categorizedDates[dayKey] = [];
         categorizedDates[dayKey].push({
           amount: transaction.amount,
           expense: transaction.expense,
         });
-      }
-    });
+      } else break;
+    }
 
-    let past7DaysLabels = Object.keys(categorizedDates).sort((a, b) => {
+    let pastDaysLabels = Object.keys(categorizedDates).sort((a, b) => {
       const dateA = moment(a, 'D MMM');
       const dateB = moment(b, 'D MMM');
       return dateA - dateB;
     });
-    const past7DaysTransactions = past7DaysLabels.map(
+    const past7DaysTransactions = pastDaysLabels.map(
       key => categorizedDates[key],
     );
 
@@ -60,155 +59,23 @@ export default function PastTransactions() {
       totalExpenseArray.push(totalExpenseOnTheDay);
     });
 
-    past7DaysLabels.pop();
-    past7DaysLabels.push('Today');
+    pastDaysLabels.pop();
+    pastDaysLabels.push('Today');
 
     setPastTransactionsData({
-      past7DaysLabels: past7DaysLabels,
+      pastDaysLabels: pastDaysLabels,
       totalExpenseArray: totalExpenseArray,
       totalIncomeArray: totalIncomeArray,
     });
   };
 
   useEffect(() => {
-    updatePast7DaysTransactions();
+    updatePastDaysTransactions();
   }, [transactions]);
 
   return (
-    <View>
-      <View
-        className="w-4/5 my-7 mx-auto flex flex-row h-12 rounded-md overflow-hidden z-10"
-        style={{
-          backgroundColor:
-            theme === 'light'
-              ? colors.light.background
-              : colors.dark.background,
-          shadowColor:
-            theme === 'light' ? colors.light.shadow : colors.dark.shadow,
-          elevation: 5,
-        }}>
-        <TouchableNativeFeedback onPress={() => setTabIndex(0)}>
-          <View
-            className="w-1/2 flex justify-center items-center z-20"
-            style={{
-              backgroundColor:
-                tabIndex === 0
-                  ? theme === 'light'
-                    ? colors.light.primary
-                    : colors.dark.primary
-                  : theme === 'light'
-                  ? colors.light.background
-                  : colors.dark.background,
-            }}>
-            <Text
-              style={{
-                color:
-                  tabIndex === 0
-                    ? 'white'
-                    : theme === 'light'
-                    ? colors.light.primary
-                    : colors.dark.primary,
-              }}
-              className="text-lg font-extrabold">
-              Income
-            </Text>
-          </View>
-        </TouchableNativeFeedback>
-        <TouchableNativeFeedback onPress={() => setTabIndex(1)}>
-          <View
-            className="w-1/2 flex justify-center items-center z-20"
-            style={{
-              backgroundColor:
-                tabIndex === 1
-                  ? theme === 'light'
-                    ? colors.light.primary
-                    : colors.dark.primary
-                  : theme === 'light'
-                  ? colors.light.background
-                  : colors.dark.background,
-            }}>
-            <Text
-              style={{
-                color:
-                  tabIndex === 1
-                    ? 'white'
-                    : theme === 'light'
-                    ? colors.light.primary
-                    : colors.dark.primary,
-              }}
-              className="text-lg font-extrabold">
-              Expense
-            </Text>
-          </View>
-        </TouchableNativeFeedback>
-      </View>
-      <View className="mx-auto rounded-xl overflow-hidden">
-        <BezierGraph
-          pastTransactionsData={pastTransactionsData}
-          tabIndex={tabIndex}
-        />
-      </View>
+    <View className="my-4">
+      <BarGraph pastTransactionsData={pastTransactionsData} />
     </View>
   );
 }
-
-const BezierGraph = ({pastTransactionsData, tabIndex}) => {
-  const theme = useSelector(state => state.theme.theme);
-  const screenWidth = Dimensions.get('window').width;
-
-  const data = {
-    // labels: ['21 Dec','22 Dec','23 Dec','24 Dec','25 Dec','26 Dec','Today'],
-    labels: pastTransactionsData.past7DaysLabels,
-    datasets: [
-      {
-        data:
-          tabIndex === 0
-            ? pastTransactionsData.totalIncomeArray
-            : pastTransactionsData.totalExpenseArray,
-      },
-    ],
-  };
-
-  const chartConfig = {
-    backgroundGradientFrom:
-      theme === 'light' ? colors.light.graph : colors.dark.graph,
-    backgroundGradientFromOpacity: 1,
-    backgroundGradientTo:
-      theme === 'light' ? colors.light.graph : colors.dark.graph,
-    backgroundGradientToOpacity: 1,
-    color: () =>
-      theme === 'light' ? colors.light.primary : colors.dark.primary,
-    strokeWidth: 3,
-    propsForBackgroundLines: {
-      strokeDasharray: '',
-    }
-  };
-
-  return (
-    <View
-      style={{
-        backgroundColor:
-          theme === 'light' ? colors.light.graph : colors.dark.graph,
-      }}
-      className="pt-5">
-      {pastTransactionsData.past7DaysLabels.length !== 0 && (
-        <LineChart
-          data={data}
-          width={screenWidth}
-          height={300}
-          segments={5}
-          chartConfig={chartConfig}
-          withInnerLines={false}
-          // withOuterLines={false}
-          yLabelsOffset={10}
-          fromZero={true}
-          formatYLabel={value => {
-            value.toString();
-            return value.slice(0, -3);
-          }}
-          bezier
-        />
-      )}
-    </View>
-  );
-};

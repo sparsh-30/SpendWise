@@ -23,14 +23,14 @@ export default function DarkMode() {
             theme === 'light' ? colors.light.shadow : colors.dark.shadow,
         }}
         className="w-5/6 mx-auto p-3 flex flex-row justify-between items-center shadow-lg rounded-lg">
-        <Text className="text-lg font-extrabold text-white">
+        <Text style={{fontSize: 16}} className="font-extrabold text-white">
           {theme === 'light' ? 'DARK MODE' : 'LIGHT MODE'}
         </Text>
         <View>
           {theme === 'light' ? (
-            <Icon name="moon" size={28} color="#FDB813" />
+            <Icon name="moon" size={24} color="#FDB813" />
           ) : (
-            <Icon name="sunny" size={28} color="#FDB813" />
+            <Icon name="sunny" size={24} color="#FDB813" />
           )}
         </View>
       </View>

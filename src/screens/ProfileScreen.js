@@ -15,11 +15,11 @@ export default function ProfileScreen() {
           theme === 'light' ? colors.light.background : colors.dark.background,
       }}
       className="bg-white dark:bg-[#302D43] flex flex-1">
-      <ProfilePicture />
-      <UserName />
-      <DarkMode />
-      <DeleteTransactions />
-      <View className="w-full h-20"></View>
+        <ProfilePicture />
+        <UserName />
+        <DarkMode />
+        <DeleteTransactions />
+        <View className="w-full h-20"></View>
     </ScrollView>
   );
 }

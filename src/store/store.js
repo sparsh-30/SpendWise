@@ -4,6 +4,7 @@ import dropdownSlice from './dropdownSlice'
 import TransactionsSlice from './TransactionsSlice'
 import bottomSheetSlice from './bottomSheetSlice'
 import userSlice from './userSlice'
+import modalSlice from './modalSlice'
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     transactions:TransactionsSlice,
     bottomSheet:bottomSheetSlice,
     user:userSlice,
+    modal:modalSlice
   },
 })
 
