@@ -28,42 +28,43 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Tab = createBottomTabNavigator();
 
-export default function BottomTabs() {
+export default function BottomTabs({setHideSplashScreen}) {
   const theme = useSelector(state => state.theme.theme);
   const currentState = useSelector(state => state.bottomSheet.currentState);
   const dispatch = useDispatch();
 
   const bottomSheetRef = useRef(null);
 
-  // const onAppInitialization = async () => {
-  //   try {
-  //     const theme = await AsyncStorage.getItem('theme');
-  //     if (theme === null) {
-  //       const systemTheme = Appearance.getColorScheme();
-  //       dispatch(toggleMode(systemTheme));
-  //     } else {
-  //       dispatch(toggleMode(theme));
-  //     }
+  const onAppInitialization = async () => {
+    try {
+      const theme = await AsyncStorage.getItem('theme');
+      if (theme === null) {
+        const systemTheme = Appearance.getColorScheme();
+        dispatch(toggleMode(systemTheme));
+      } else {
+        dispatch(toggleMode(theme));
+      }
 
-  //     const value = await AsyncStorage.getItem('transactions-data');
-  //     if (value !== null) {
-  //       const temp = JSON.parse(value);
-  //       dispatch(initialiseData(temp));
-  //     }
+      const value = await AsyncStorage.getItem('transactions-data');
+      if (value !== null) {
+        const temp = JSON.parse(value);
+        dispatch(initialiseData(temp));
+      }
 
-  //     const userName = await AsyncStorage.getItem('user-name');
-  //     dispatch(setUserName(userName));
+      const userName = await AsyncStorage.getItem('user-name');
+      dispatch(setUserName(userName));
 
-  //     const userImage = await AsyncStorage.getItem('user-image');
-  //     dispatch(setUserImage(userImage));
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-  // };
+      const userImage = await AsyncStorage.getItem('user-image');
+      dispatch(setUserImage(userImage));
+      setHideSplashScreen(true);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
-  // useEffect(() => {
-  //   onAppInitialization();
-  // }, []);
+  useEffect(() => {
+    onAppInitialization();
+  }, []);
 
   return (
     <NavigationContainer>

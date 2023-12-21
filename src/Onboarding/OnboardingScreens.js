@@ -5,15 +5,14 @@ import Onboarding1 from './../../assets/onboarding1.png';
 import Onboarding2 from './../../assets/onboarding2.png';
 import Onboarding3 from './../../assets/onboarding3.png';
 import Check from 'react-native-vector-icons/FontAwesome';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
+import {saveUserName} from '../store/userSlice';
 import colors from '../colors';
 import MyText from '../MyText';
 
-import {useDispatch} from 'react-redux';
-import {toggleMode} from './../store/themeSlice';
-
-export default function OnboardingScreens() {
+export default function OnboardingScreens({setShowOnboarding}) {
   const theme = useSelector(state => state.theme.theme);
+  const dispatch = useDispatch();
   const [keyboardVisible, setKeyboardVisible] = useState(false);
   const [userName, setUserName] = useState('');
   const alphabetRegex = /^[a-zA-Z ]*$/;
@@ -32,10 +31,9 @@ export default function OnboardingScreens() {
     };
   }, []);
 
-  const dispatch = useDispatch();
-  const toggleSwitch = () => {
-    if (theme === 'light') dispatch(toggleMode('dark'));
-    else dispatch(toggleMode('light'));
+  const handleUserNameSubmit = () => {
+    dispatch(saveUserName(userName));
+    setShowOnboarding(false);
   };
 
   return (
@@ -47,7 +45,7 @@ export default function OnboardingScreens() {
         barStyle={theme === 'light' ? 'dark-content' : 'light-content'}
       />
       <Onboarding
-        onDone={() => toggleSwitch()}
+        onDone={handleUserNameSubmit}
         showSkip={false}
         showDone={
           alphabetRegex.test(userName) &&
@@ -110,7 +108,7 @@ export default function OnboardingScreens() {
             image: (
               <Image style={{width: 250, height: 250}} source={Onboarding3} />
             ),
-            title: 'Username:',
+            title: 'Username',
             subtitle: (
               <UsernameInput
                 theme={theme}
