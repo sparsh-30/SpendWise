@@ -10,7 +10,6 @@ export default function ExpenseCard() {
 
   const setCardWidth = () => {
     const windowWidth = Dimensions.get('window').width;
-    console.log(windowWidth);
     if (windowWidth > 450) return 350;
     return '92%';
   };

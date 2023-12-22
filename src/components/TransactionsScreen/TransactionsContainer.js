@@ -1,11 +1,9 @@
-import {ScrollView, View, Text} from 'react-native';
+import {ScrollView, View} from 'react-native';
 import Transaction from './Transaction';
 import NoTransactionsDisplay from '../../NoTransactionsDisplay';
 import {useSelector} from 'react-redux';
-import colors from '../../colors';
 
 export default function TransactionsContainer() {
-  const theme = useSelector(state => state.theme.theme);
   const currentCategory = useSelector(state => state.dropdown.category);
   const transactionType = useSelector(state => state.dropdown.transactionType);
   const transactionsArray = useSelector(
@@ -16,6 +14,7 @@ export default function TransactionsContainer() {
     return (
       <Transaction
         key={index}
+        _id={transaction._id}
         expense={transaction.expense}
         title={transaction.title}
         category={transaction.category}

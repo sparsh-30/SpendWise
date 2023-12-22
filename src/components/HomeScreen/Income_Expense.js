@@ -1,13 +1,16 @@
 import {View, Text, TouchableOpacity} from 'react-native';
 import MyText from '../../MyText';
-import {useSelector,useDispatch} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import colors from '../../colors';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { openBottomSheet, setTransactionType } from '../../store/bottomSheetSlice';
+import {
+  openBottomSheet,
+  setTransactionType,
+} from '../../store/bottomSheetSlice';
 
 export default function Income_Expense() {
-  const totalExpense=useSelector((state)=> state.transactions.totalExpense);
-  const totalIncome=useSelector((state)=> state.transactions.totalIncome);
+  const totalExpense = useSelector(state => state.transactions.totalExpense);
+  const totalIncome = useSelector(state => state.transactions.totalIncome);
   return (
     <View className="my-5">
       <View className="flex flex-row justify-evenly">
@@ -20,13 +23,13 @@ export default function Income_Expense() {
 
 const Card = props => {
   const theme = useSelector(state => state.theme.theme);
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
 
   const handleBottomSheetOpen = () => {
     dispatch(openBottomSheet());
-    if(props.expense===true) dispatch(setTransactionType('expense'));
+    if (props.expense === true) dispatch(setTransactionType('expense'));
     else dispatch(setTransactionType('income'));
-  }
+  };
 
   return (
     <View
@@ -57,11 +60,11 @@ const Card = props => {
           }}
           className="text-[20px] font-bold">
           {' '}
-          ₹ {(props.value).toLocaleString('en-IN')}
+          ₹ {props.value.toLocaleString('en-IN')}
         </Text>
       </View>
       <TouchableOpacity
-        onPress={()=> handleBottomSheetOpen()}
+        onPress={() => handleBottomSheetOpen()}
         style={{
           backgroundColor:
             theme === 'light' ? colors.light.primary : colors.dark.primary,

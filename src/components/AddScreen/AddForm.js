@@ -5,10 +5,10 @@ import {
   TextInput,
   Image,
   Button,
-  ActivityIndicator,
 } from 'react-native';
 import {useState, useEffect} from 'react';
 import {Formik} from 'formik';
+import uuid from 'react-native-uuid';
 import DropDownPicker from 'react-native-dropdown-picker';
 import {useSelector, useDispatch} from 'react-redux';
 import colors from '../../colors';
@@ -21,13 +21,11 @@ import {
 } from '../../categoryLinks';
 import RNDateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
-import {setTransactionsArray} from '../../store/TransactionsSlice';
 import {saveTransactionData} from '../../store/TransactionsSlice';
 import {
   closeBottomSheet,
   setTransactionType,
 } from '../../store/bottomSheetSlice';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {BottomSheetScrollView} from '@gorhom/bottom-sheet';
 
 export default function AddForm() {
@@ -88,31 +86,35 @@ export default function AddForm() {
     setPlaceholder(date);
   };
 
-  const sortTransaction = (transaction,allTransactions) => {
-    if(allTransactions.length===0) return [transaction];
-    let temp=[...allTransactions];
+  const sortTransaction = (transaction, allTransactions) => {
+    if (allTransactions.length === 0) return [transaction];
+    let temp = [...allTransactions];
     let left = 0;
     let right = temp.length - 1;
-    const transactionDate=Number(moment(transaction.date,"DD/MM/YYYY, h:mm a").format("YYYYMMDDHHmm"));
-    while(left<=right){
+    const transactionDate = Number(
+      moment(transaction.date, 'DD/MM/YYYY, h:mm a').format('YYYYMMDDHHmm'),
+    );
+    while (left <= right) {
       const mid = Math.floor((left + right) / 2);
-      midDate=Number(moment(temp[mid].date,"DD/MM/YYYY, h:mm a").format("YYYYMMDDHHmm"));
-      if(midDate===transactionDate){
-        temp.splice(mid,0,transaction);
+      midDate = Number(
+        moment(temp[mid].date, 'DD/MM/YYYY, h:mm a').format('YYYYMMDDHHmm'),
+      );
+      if (midDate === transactionDate) {
+        temp.splice(mid, 0, transaction);
         return temp;
-      }
-      else if(midDate<transactionDate) right=mid-1;
-      else left=mid+1;
+      } else if (midDate < transactionDate) right = mid - 1;
+      else left = mid + 1;
     }
-    temp.splice(left,0,transaction);
+    temp.splice(left, 0, transaction);
     return temp;
-  }
+  };
 
   const handleFormSubmit = (values, resetForm) => {
     const tempDate = moment(placeholder, dateTimeFormat).format(
       'DD/MM/YYYY, h:mm a',
     );
     const transactionObject = {
+      _id: uuid.v4(),
       title: values.title,
       amount: values.amount,
       expense: selectedTransactionType === 'expense' ? true : false,
@@ -120,7 +122,10 @@ export default function AddForm() {
       date: tempDate,
     };
 
-    const tempArray=sortTransaction(transactionObject,transactionsData.transactions);
+    const tempArray = sortTransaction(
+      transactionObject,
+      transactionsData.transactions,
+    );
 
     const dataToSave = {
       totalExpense:
@@ -142,233 +147,244 @@ export default function AddForm() {
 
   return (
     <BottomSheetScrollView>
-    <View className="flex-1 mt-4">
-      <Text
-        style={{
-          color: theme === 'light' ? colors.light.primary : colors.dark.primary,
-        }}
-        className="text-2xl text-center mb-8 font-[700]">
-        ADD TRANSACTION
-      </Text>
-      <Formik
-        initialValues={{title: '', amount: ''}}
-        // onReset={handleReset}
-        onSubmit={(values, {resetForm}) => handleFormSubmit(values, resetForm)}>
-        {({handleChange, handleSubmit, values}) => {
-          return (
-            <View className="px-7">
-              {/* Transaction Title Input Field */}
-              <View className="mb-6">
-                <TextInput
-                  onChangeText={handleChange('title')}
-                  value={values.title}
-                  style={{
-                    color:
-                      theme === 'light' ? colors.light.text : colors.dark.text,
-                    borderColor:
-                      theme === 'light'
-                        ? colors.light.primary
-                        : colors.dark.primary,
-                  }}
-                  className="h-12 px-4 text-white font-extrabold mt-1 rounded-md border-4"
-                  placeholder="Transaction Title"
-                  placeholderTextColor={
-                    theme === 'light' ? colors.light.text : colors.dark.text
-                  }
-                  selectionColor={
-                    theme === 'light' ? colors.light.text : colors.dark.text
-                  }
-                />
-                <View className="flex flex-row mt-2">
-                  <ValidationLabel
-                    title="Length: 4-32"
-                    success={
-                      values.title.length >= 4 && values.title.length <= 32
-                        ? true
-                        : false
+      <View className="flex-1 mt-4">
+        <Text
+          style={{
+            color:
+              theme === 'light' ? colors.light.primary : colors.dark.primary,
+          }}
+          className="text-2xl text-center mb-8 font-[700]">
+          ADD TRANSACTION
+        </Text>
+        <Formik
+          initialValues={{title: '', amount: ''}}
+          // onReset={handleReset}
+          onSubmit={(values, {resetForm}) =>
+            handleFormSubmit(values, resetForm)
+          }>
+          {({handleChange, handleSubmit, values}) => {
+            return (
+              <View className="px-7">
+                {/* Transaction Title Input Field */}
+                <View className="mb-6">
+                  <TextInput
+                    onChangeText={handleChange('title')}
+                    value={values.title}
+                    style={{
+                      color:
+                        theme === 'light'
+                          ? colors.light.text
+                          : colors.dark.text,
+                      borderColor:
+                        theme === 'light'
+                          ? colors.light.primary
+                          : colors.dark.primary,
+                    }}
+                    className="h-12 px-4 text-white font-extrabold mt-1 rounded-md border-4"
+                    placeholder="Transaction Title"
+                    placeholderTextColor={
+                      theme === 'light' ? colors.light.text : colors.dark.text
+                    }
+                    selectionColor={
+                      theme === 'light' ? colors.light.text : colors.dark.text
                     }
                   />
-                  <ValidationLabel
-                    title="Required"
-                    success={values.title !== '' ? true : false}
-                  />
+                  <View className="flex flex-row mt-2">
+                    <ValidationLabel
+                      title="Length: 4-32"
+                      success={
+                        values.title.length >= 4 && values.title.length <= 32
+                          ? true
+                          : false
+                      }
+                    />
+                    <ValidationLabel
+                      title="Required"
+                      success={values.title !== '' ? true : false}
+                    />
+                  </View>
                 </View>
-              </View>
-              {/* Transaction Amount and Transaction Type Input Field */}
-              <View className="mb-6">
-                <View className="flex flex-row">
-                  {/* Transaction Amount Input */}
-                  <View className="w-1/2">
-                    <TextInput
-                      onChangeText={handleChange('amount')}
-                      value={values.amount}
-                      style={{
-                        color:
+                {/* Transaction Amount and Transaction Type Input Field */}
+                <View className="mb-6">
+                  <View className="flex flex-row">
+                    {/* Transaction Amount Input */}
+                    <View className="w-1/2">
+                      <TextInput
+                        onChangeText={handleChange('amount')}
+                        value={values.amount}
+                        style={{
+                          color:
+                            theme === 'light'
+                              ? colors.light.text
+                              : colors.dark.text,
+                          borderColor:
+                            theme === 'light'
+                              ? colors.light.primary
+                              : colors.dark.primary,
+                        }}
+                        className="h-12 px-4 w-[90%] text-white font-extrabold rounded-md border-4"
+                        placeholder="Amount"
+                        placeholderTextColor={
                           theme === 'light'
                             ? colors.light.text
-                            : colors.dark.text,
-                        borderColor:
+                            : colors.dark.text
+                        }
+                        selectionColor={
                           theme === 'light'
-                            ? colors.light.primary
-                            : colors.dark.primary,
-                      }}
-                      className="h-12 px-4 w-[90%] text-white font-extrabold rounded-md border-4"
-                      placeholder="Amount"
-                      placeholderTextColor={
-                        theme === 'light' ? colors.light.text : colors.dark.text
-                      }
-                      selectionColor={
-                        theme === 'light' ? colors.light.text : colors.dark.text
-                      }
-                      keyboardType="decimal-pad"
-                    />
+                            ? colors.light.text
+                            : colors.dark.text
+                        }
+                        keyboardType="decimal-pad"
+                      />
+                    </View>
+                    {/* Transaction Type Dropdown */}
+                    <View className="w-1/2 relative bottom-[1]">
+                      <TransactionTypeDropdown
+                        getSelectedTransactionType={getSelectedTransactionType}
+                        selectedTransactionType={selectedTransactionType}
+                      />
+                    </View>
                   </View>
-                  {/* Transaction Type Dropdown */}
-                  <View className="w-1/2 relative bottom-[1]">
-                    <TransactionTypeDropdown
-                      getSelectedTransactionType={getSelectedTransactionType}
-                      selectedTransactionType={selectedTransactionType}
+                  <View className="flex flex-row mt-2">
+                    <ValidationLabel
+                      title="Range: 1-100000"
+                      success={
+                        values.amount >= 1 && values.amount <= 100000
+                          ? true
+                          : false
+                      }
+                    />
+                    <ValidationLabel
+                      title="Required"
+                      success={values.amount !== '' ? true : false}
                     />
                   </View>
                 </View>
-                <View className="flex flex-row mt-2">
-                  <ValidationLabel
-                    title="Range: 1-100000"
-                    success={
-                      values.amount >= 1 && values.amount <= 100000
-                        ? true
-                        : false
+                {/* Transaction Category Dropdown */}
+                <View className="mb-6">
+                  <CategoriesDropdown
+                    getSelectedCategory={getSelectedCategory}
+                    selectedTransactionType={selectedTransactionType}
+                  />
+                </View>
+
+                {/* Transaction Date and Time Picker */}
+                <View>
+                  <TextInput
+                    readOnly={true}
+                    style={{
+                      color:
+                        theme === 'light'
+                          ? colors.light.text
+                          : colors.dark.text,
+                      borderColor:
+                        theme === 'light'
+                          ? colors.light.primary
+                          : colors.dark.primary,
+                    }}
+                    className="h-12 px-4 mb-2 text-white font-extrabold mt-1 rounded-md border-4"
+                    placeholder={placeholder}
+                    placeholderTextColor={
+                      theme === 'light' ? colors.light.text : colors.dark.text
+                    }
+                    selectionColor={
+                      theme === 'light' ? colors.light.text : colors.dark.text
                     }
                   />
-                  <ValidationLabel
-                    title="Required"
-                    success={values.amount !== '' ? true : false}
-                  />
+                  {/* Date and Time Buttons */}
+                  <View className="flex flex-row justify-between">
+                    <TouchableNativeFeedback onPress={showDatepicker}>
+                      <View
+                        style={{
+                          backgroundColor:
+                            theme === 'light'
+                              ? colors.light.primary
+                              : colors.dark.primary,
+                        }}
+                        className="w-[30%] py-3 flex flex-row justify-center rounded-md">
+                        <Text className="text-[16] text-white font-[800]">
+                          DATE
+                        </Text>
+                      </View>
+                    </TouchableNativeFeedback>
+                    <TouchableNativeFeedback onPress={showTimepicker}>
+                      <View
+                        style={{
+                          backgroundColor:
+                            theme === 'light'
+                              ? colors.light.primary
+                              : colors.dark.primary,
+                        }}
+                        className="w-[30%] py-3 flex flex-row justify-center rounded-md">
+                        <Text className="text-[16] text-white font-[800]">
+                          TIME
+                        </Text>
+                      </View>
+                    </TouchableNativeFeedback>
+                    <TouchableNativeFeedback onPress={handleClickOnNow}>
+                      <View
+                        style={{
+                          backgroundColor:
+                            theme === 'light'
+                              ? colors.light.primary
+                              : colors.dark.primary,
+                        }}
+                        className="w-[30%] py-3 flex flex-row justify-center rounded-md">
+                        <Text className="text-[16] text-white font-[800]">
+                          NOW
+                        </Text>
+                      </View>
+                    </TouchableNativeFeedback>
+                    {show && (
+                      <RNDateTimePicker
+                        testID="dateTimePicker"
+                        value={date}
+                        mode={mode}
+                        is24Hour={false}
+                        onChange={onChange}
+                      />
+                    )}
+                  </View>
+                  <View className="flex flex-row mt-2">
+                    <ValidationLabel
+                      title="Required"
+                      success={
+                        placeholder !== 'Date of the transaction' ? true : false
+                      }
+                    />
+                  </View>
                 </View>
-              </View>
-              {/* Transaction Category Dropdown */}
-              <View className="mb-6">
-                <CategoriesDropdown
-                  getSelectedCategory={getSelectedCategory}
-                  selectedTransactionType={selectedTransactionType}
-                />
-              </View>
-
-              {/* Transaction Date and Time Picker */}
-              <View>
-                <TextInput
-                  readOnly={true}
-                  style={{
-                    color:
-                      theme === 'light' ? colors.light.text : colors.dark.text,
-                    borderColor:
+                {/* Submit Button */}
+                <View className="w-5/6 mx-auto mt-8 rounded-md overflow-hidden">
+                  <Button
+                    title="Submit"
+                    onPress={handleSubmit}
+                    color={
                       theme === 'light'
                         ? colors.light.primary
-                        : colors.dark.primary,
-                  }}
-                  className="h-12 px-4 mb-2 text-white font-extrabold mt-1 rounded-md border-4"
-                  placeholder={placeholder}
-                  placeholderTextColor={
-                    theme === 'light' ? colors.light.text : colors.dark.text
-                  }
-                  selectionColor={
-                    theme === 'light' ? colors.light.text : colors.dark.text
-                  }
-                />
-                {/* Date and Time Buttons */}
-                <View className="flex flex-row justify-between">
-                  <TouchableNativeFeedback onPress={showDatepicker}>
-                    <View
-                      style={{
-                        backgroundColor:
-                          theme === 'light'
-                            ? colors.light.primary
-                            : colors.dark.primary,
-                      }}
-                      className="w-[30%] py-3 flex flex-row justify-center rounded-md">
-                      <Text className="text-[16] text-white font-[800]">
-                        DATE
-                      </Text>
-                    </View>
-                  </TouchableNativeFeedback>
-                  <TouchableNativeFeedback onPress={showTimepicker}>
-                    <View
-                      style={{
-                        backgroundColor:
-                          theme === 'light'
-                            ? colors.light.primary
-                            : colors.dark.primary,
-                      }}
-                      className="w-[30%] py-3 flex flex-row justify-center rounded-md">
-                      <Text className="text-[16] text-white font-[800]">
-                        TIME
-                      </Text>
-                    </View>
-                  </TouchableNativeFeedback>
-                  <TouchableNativeFeedback onPress={handleClickOnNow}>
-                    <View
-                      style={{
-                        backgroundColor:
-                          theme === 'light'
-                            ? colors.light.primary
-                            : colors.dark.primary,
-                      }}
-                      className="w-[30%] py-3 flex flex-row justify-center rounded-md">
-                      <Text className="text-[16] text-white font-[800]">
-                        NOW
-                      </Text>
-                    </View>
-                  </TouchableNativeFeedback>
-                  {show && (
-                    <RNDateTimePicker
-                      testID="dateTimePicker"
-                      value={date}
-                      mode={mode}
-                      is24Hour={false}
-                      onChange={onChange}
-                    />
-                  )}
-                </View>
-                <View className="flex flex-row mt-2">
-                  <ValidationLabel
-                    title="Required"
-                    success={
-                      placeholder !== 'Date of the transaction' ? true : false
+                        : colors.dark.primary
+                    }
+                    disabled={
+                      !(
+                        values.title.length >= 4 &&
+                        values.title.length <= 32 &&
+                        values.title !== '' &&
+                        values.amount >= 1 &&
+                        values.amount <= 100000 &&
+                        values.amount !== '' &&
+                        placeholder !== 'Date of the transaction'
+                      )
                     }
                   />
                 </View>
               </View>
-              {/* Submit Button */}
-              <View className="w-5/6 mx-auto mt-8 rounded-md overflow-hidden">
-                <Button
-                  title="Submit"
-                  onPress={handleSubmit}
-                  color={
-                    theme === 'light'
-                      ? colors.light.primary
-                      : colors.dark.primary
-                  }
-                  disabled={
-                    !(
-                      values.title.length >= 4 &&
-                      values.title.length <= 32 &&
-                      values.title !== '' &&
-                      values.amount >= 1 &&
-                      values.amount <= 100000 &&
-                      values.amount !== '' &&
-                      placeholder !== 'Date of the transaction'
-                    )
-                  }
-                />
-              </View>
-            </View>
-          );
-        }}
-      </Formik>
-      {/* <View className="absolute top-0 w-full h-full flex-1 bg-black z-[5000]">
+            );
+          }}
+        </Formik>
+        {/* <View className="absolute top-0 w-full h-full flex-1 bg-black z-[5000]">
         <Text>df</Text>
       </View> */}
-    </View>
+      </View>
     </BottomSheetScrollView>
   );
 }
@@ -421,7 +437,7 @@ const TransactionTypeDropdown = ({
       setValue={setValue}
       setItems={setItems}
       itemSeparator={true}
-      listMode='SCROLLVIEW'
+      listMode="SCROLLVIEW"
       closeOnBackPressed={true}
       closeAfterSelecting={true}
       zIndex={1000}
