@@ -1,7 +1,6 @@
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {useEffect, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import WelcomeScreen from './src/Onboarding/WelcomeScreen';
 import BottomTabs from './src/navigation/BottomTabs';
 import OnboardingScreens from './src/Onboarding/OnboardingScreens';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
@@ -16,10 +15,7 @@ export default function App() {
   useEffect(() => {
     const checkOnboarding = async () => {
       const value = await AsyncStorage.getItem('onboarding');
-      if (value === null) {
-        await AsyncStorage.setItem('onboarding', 'userOnboarded');
-        setShowOnboarding(true);
-      }
+      if (value === null) setShowOnboarding(true);
     };
     checkOnboarding();
     hideSplashScreen ? '' : SplashScreen.hide();

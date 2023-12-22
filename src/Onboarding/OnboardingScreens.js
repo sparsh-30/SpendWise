@@ -1,10 +1,10 @@
 import {View, Text, Image, TextInput, StatusBar, Keyboard} from 'react-native';
 import {useState, useEffect} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Onboarding from 'react-native-onboarding-swiper';
 import Onboarding1 from './../../assets/onboarding1.png';
 import Onboarding2 from './../../assets/onboarding2.png';
-import Onboarding3 from './../../assets/ob3.png';
-// import Onboarding3 from './../../assets/onboarding3.png';
+import Onboarding3 from './../../assets/onboarding3.png';
 import Check from 'react-native-vector-icons/FontAwesome';
 import {useSelector, useDispatch} from 'react-redux';
 import {saveUserName} from '../store/userSlice';
@@ -32,8 +32,9 @@ export default function OnboardingScreens({setShowOnboarding}) {
     };
   }, []);
 
-  const handleUserNameSubmit = () => {
+  const handleUserNameSubmit = async () => {
     dispatch(saveUserName(userName));
+    await AsyncStorage.setItem('onboarding', 'userOnboarded');
     setShowOnboarding(false);
   };
 
